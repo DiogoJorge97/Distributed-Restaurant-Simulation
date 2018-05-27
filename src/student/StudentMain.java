@@ -27,7 +27,10 @@ public class StudentMain {
         int barPortNumber = Info.barPortNumber;
         String tableHostName = Info.tableHostName;
         int tablePortNumber = Info.tablePortNumber;
-        
+
+
+        System.out.println("Client Side - Students");
+
         BarStub barStub = new BarStub(barHostName, barPortNumber);
         TableStub tableStub = new TableStub(tableHostName, tablePortNumber);
 

@@ -6,6 +6,8 @@ import entities_states.Waiter_State;
 import java.io.IOException;
 import stubs.BarStub;
 import stubs.KitchenStub;
+import comInf.Info;
+import stubs.GeneralRepoStub;
 
 /**
  *
@@ -25,18 +27,18 @@ public class Table {
     private final Semaphore waitingForFriends;
     private final Semaphore getReadyToPay;
     private final Semaphore preparingTheOrder;
+    private final Semaphore waitingforgoodbye;
     private int exitCount;
 
-//    private final Kitchen kitchen;
     private final Semaphore getPadReady;
     private int studentCount, readyCounter, deliveredCounter, MaxStudents, MCourses;
-//    private GeneralRepo gr;
+    private GeneralRepoStub generalRepoStub;
     private int coursesNumber;
     private int studentNumber;
     private BarStub barStub;
     private KitchenStub kitchenStub;
 
-    Table(int studentNumber, int coursesNumber, BarStub barStub, KitchenStub kitchenStub) {
+    Table(int studentNumber, int coursesNumber, BarStub barStub, KitchenStub kitchenStub, GeneralRepoStub generalRepoStub) {
         this.coursesNumber = coursesNumber;
         this.studentNumber = studentNumber;
         this.barStub = barStub;
@@ -57,8 +59,11 @@ public class Table {
         this.waiterWaitingForPayment = new Semaphore();
         this.getPadReady = new Semaphore();
         this.preparingTheOrder = new Semaphore();
-        studentsWaitingForSalute = new Semaphore();
-//        this.gr = gr;
+        this.studentsWaitingForSalute = new Semaphore();
+        this.waitingforgoodbye = new Semaphore();
+        this.MaxStudents = Info.studentNumber;
+        MCourses = Info.coursesNumber;
+        this.generalRepoStub = generalRepoStub;
     }
 
     /**
@@ -72,18 +77,16 @@ public class Table {
         access.down();
         System.out.println("Table       Student     " + studentCount + " Student enters");
         barStub.alertWaiterEntering();
-//        gr.updateStudentState(Student_State.TST, StudentId);
+        generalRepoStub.updateStudentState(Student_State.TST, StudentId);
         access.up();
-        System.out.println("1111111111111111111");
         studentsWaitingForSalute.down();
-        System.out.println("2222222222222222222222222222");
         return ++studentCount;
     }
 
     public void saluteTheClient() throws IOException {
         access.down();
         System.out.println("Table       Waiter      Salute The Client");
-//        gr.updateWaiterState(Waiter_State.PTM);
+        generalRepoStub.updateWaiterState(Waiter_State.PTM);
         studentsWaitingForSalute.up();
         access.up();
         waiterPresentTheMenu.down();
@@ -97,8 +100,8 @@ public class Table {
      */
     public void readTheMenu(int StudentId) throws IOException {
         access.down();
-//        gr.updateStudentState(Student_State.STC, StudentId);
-        System.out.println("Table       Student starts reading");
+        generalRepoStub.updateStudentState(Student_State.STC, StudentId);
+        System.out.println("Table       Student     starts reading");
         waiterPresentTheMenu.up();
         access.up();
 
@@ -122,7 +125,8 @@ public class Table {
     public void prepareTheOrder(int StudentId) throws IOException {
         preparingTheOrder.down();
         access.down();
-//        gr.updateStudentState(Student_State.OTO, StudentId);
+        generalRepoStub.updateStudentState(Student_State.OTO, StudentId);
+        System.out.println("Table       Student     " + "Prepare the order");
         access.up();
     }
 
@@ -136,9 +140,9 @@ public class Table {
         access.down();
         readyCounter++;
         preparingTheOrder.up();
-//        gr.updateStudentState(Student_State.CWC, StudentId);
+        System.out.println("Table       Student     " + readyCounter + " Students ready readyCounter" + readyCounter);
+        generalRepoStub.updateStudentState(Student_State.CWC, StudentId);
         access.up();
-        System.out.println("Table       Student     " + readyCounter + " Students ready");
     }
 
     /**
@@ -149,7 +153,7 @@ public class Table {
     public void getThePad() throws IOException {
         access.down();
         System.out.println("Table       Waiter      Get The Pad");
-//        gr.updateWaiterState(Waiter_State.TTO);
+        generalRepoStub.updateWaiterState(Waiter_State.TTO);
         access.up();
         getPadReady.up();
         studentOrderConfirmation.down();
@@ -177,7 +181,7 @@ public class Table {
         access.up();
         System.out.println("Table       Student     Student joins the talk");
         resetReadyCounter();
-//        gr.updateStudentState(Student_State.CWC, StudentId);
+        generalRepoStub.updateStudentState(Student_State.CWC, StudentId);
 
     }
 
@@ -204,7 +208,7 @@ public class Table {
         studentChatting.down();
         access.down();
         System.out.println("Table       Student     Starts eating " + StudentId);
-//        gr.updateStudentState(Student_State.ETM, StudentId);
+        generalRepoStub.updateStudentState(Student_State.ETM, StudentId);
         access.up();
         Thread.sleep(500);
     }
@@ -217,9 +221,9 @@ public class Table {
      */
     public void endEating(int StudentId) throws IOException {
         access.down();
-//        gr.updateStudentState(Student_State.CWC, StudentId);
-        System.out.println("Table       Student     End eating " + StudentId);
+        generalRepoStub.updateStudentState(Student_State.CWC, StudentId);     
         readyCounter++;
+        System.out.println("Table       Student     End eating " + StudentId + " Ready Counter " + readyCounter);
         access.up();
     }
 
@@ -230,14 +234,17 @@ public class Table {
      * @return true or false
      */
     public boolean hasEverybodyFinished(int currentCourse) {
+        access.down();
         if ((readyCounter == MaxStudents)) {
-            System.out.println("Table       Student     Everybody Finished");
+            System.out.println("Table       Student     Everybody Finished Current Course " + currentCourse);
             resetReadyCounter();
             if (currentCourse == (MCourses - 1)) {
                 getReadyToPay.up();
             }
+            access.up();
             return true;
         }
+        access.up();
         return false;
     }
 
@@ -250,10 +257,10 @@ public class Table {
     public void shouldHaveArrivedEarlier(int StudentId) throws IOException {
         getReadyToPay.down();
         access.down();
-//        gr.updateCourse(0);
+        generalRepoStub.updateCourse(0);
         System.out.println("Table       Student     Should Have Arrived Earlier " + StudentId);
         barStub.PayTheWaiter();
-//        gr.updateStudentState(Student_State.PTB, StudentId);
+        generalRepoStub.updateStudentState(Student_State.PTB, StudentId);
         access.up();
         studentWaitingForBill.down();
 
@@ -283,7 +290,8 @@ public class Table {
         access.down();
         System.out.println("Table       Student     Exit " + StudentId);
         barStub.alertTheWaiterExit();
-//        gr.updateStudentState(Student_State.SGH, StudentId);
+        waitingforgoodbye.down();
+        generalRepoStub.updateStudentState(Student_State.SGH, StudentId);
         exitCount++;
         if (exitCount == MaxStudents) {
             barStub.waiterGoHome();
@@ -317,7 +325,7 @@ public class Table {
     public void presentTheBill() throws IOException {
         access.down();
         System.out.println("Table       Waiter      Present The Bill");
-//        gr.updateWaiterState(Waiter_State.RTP);
+        generalRepoStub.updateWaiterState(Waiter_State.RTP);
         access.up();
         studentWaitingForBill.up();
         waiterWaitingForPayment.down();
@@ -329,6 +337,7 @@ public class Table {
      */
     public void sayGoodbye() {
         System.out.println("Table       Waiter      Say Goodbye");
+        waitingforgoodbye.up();
     }
 
     /**

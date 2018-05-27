@@ -3,6 +3,7 @@ package bar;
 import entities_states.Waiter_State;
 import semaphore.Semaphore;
 import java.io.IOException;
+import stubs.GeneralRepoStub;
 
 /**
  * @author Ricardo Antão
@@ -14,16 +15,16 @@ public class Bar {
     private char situation;
     private boolean presentBill = false;
 
-//    private GeneralRepo gr;
     private final Semaphore waiterInTheBar;
     private final Semaphore waitingForStudentsToFinish;
+    private GeneralRepoStub generalRepoStub;
 
-    public Bar(int StudentSize) {
+    public Bar(int StudentSize, GeneralRepoStub generalRepoStub) {
         this.waiterInTheBar = new Semaphore();
         this.waitingForStudentsToFinish = new Semaphore();
         this.access = new Semaphore();
         access.up();
-//        this.gr = gr;
+        this.generalRepoStub = generalRepoStub;
     }
 
     /**
@@ -35,7 +36,7 @@ public class Bar {
     public char lookAround() throws IOException {
         access.down();
         System.out.println("Bar         Waiter      Looks around: " + situation);
-//        gr.updateWaiterState(Waiter_State.ATS);
+        generalRepoStub.updateWaiterState(Waiter_State.ATS);
         access.up();
         if (presentBill == true) {
         }
@@ -80,7 +81,7 @@ public class Bar {
     public void returnToTheBar() throws IOException {
         access.down();
         System.out.println("Bar         Waiter      Return to the bar");
-//        gr.updateWaiterState(Waiter_State.ATS);
+        generalRepoStub.updateWaiterState(Waiter_State.ATS);
         access.up();
     }
 
@@ -90,7 +91,7 @@ public class Bar {
      * @throws IOException
      */
     public void prepareTheBill() throws IOException {
-//        gr.updateWaiterState(Waiter_State.PTB);
+        generalRepoStub.updateWaiterState(Waiter_State.PTB);
         System.out.println("Bar         Waiter      Prepare the bill");
         presentBill = true;
     }

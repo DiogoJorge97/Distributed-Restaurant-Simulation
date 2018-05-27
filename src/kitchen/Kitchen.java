@@ -5,6 +5,7 @@ import entities_states.Chef_State;
 import entities_states.Waiter_State;
 import java.io.IOException;
 import stubs.BarStub;
+import stubs.GeneralRepoStub;
 
 /**
  *
@@ -13,7 +14,6 @@ import stubs.BarStub;
  */
 public class Kitchen {
 
-//    private final Bar bar;
     private boolean HasTheOrderBeenCompleted = false;
     private final Semaphore access;
     private final Semaphore chefWatchingTheNews;
@@ -23,10 +23,11 @@ public class Kitchen {
     int coursesNumber = 3;
     int studentNumber = 7;
     BarStub barStub;
+    private GeneralRepoStub generalRepoStub;
     int PortionCounter;
     private int CourseCounter = 0;
 
-    public Kitchen(int courseNumber, int studentNumber, BarStub barStub) {
+    public Kitchen(int courseNumber, int studentNumber, BarStub barStub, GeneralRepoStub generalRepoStub) {
         this.coursesNumber = courseNumber;
         this.studentNumber = studentNumber;
         this.chefWatchingTheNews = new Semaphore();
@@ -36,13 +37,11 @@ public class Kitchen {
         this.chefWaitingForDelivery = new Semaphore();
         this.CourseCounter = 1;
 
-    
-
-////        this.bar = bar;
         this.access = new Semaphore();
         access.up();
-//        this.gr = gr;
+        this.generalRepoStub = generalRepoStub;
     }
+
     /**
      * Chef watches the news waiting for orders
      *
@@ -50,7 +49,7 @@ public class Kitchen {
      */
     public void WatchTheNews() throws IOException {
         System.out.println("Kitchen     Chef        Watch the news");
-//        gr.updateChefState(Chef_State.WFO);
+        generalRepoStub.updateChefState(Chef_State.WFO);
         chefWatchingTheNews.down();
     }
 
@@ -62,7 +61,7 @@ public class Kitchen {
     public void handTheNoteToTheChef() throws IOException {
         access.down();
         System.out.println("Kitchen     Waiter      Hand the note to the chef");
-//        gr.updateWaiterState(Waiter_State.PTO);
+        generalRepoStub.updateWaiterState(Waiter_State.PTO);
         chefWatchingTheNews.up();
         access.up();
     }
@@ -72,12 +71,11 @@ public class Kitchen {
      *
      * @throws IOException
      */
-
     public void StartPreparation() throws IOException {
         access.down();
         System.out.println("Kitchen     Chef        Start Course Preparation");
-//        gr.updateChefState(Chef_State.PTC);
-//        gr.updateCourse(1);
+        generalRepoStub.updateChefState(Chef_State.PTC);
+        generalRepoStub.updateCourse(1);
         //increase course counter in repo by 1
         access.up();
     }
@@ -87,11 +85,10 @@ public class Kitchen {
      *
      * @throws IOException
      */
-
     public void ProceedToPresentation() throws IOException {
         access.down();
         System.out.println("Kitchen     Chef        Proceed to presentation");
-//        gr.updateChefState(Chef_State.DIP);
+        generalRepoStub.updateChefState(Chef_State.DIP);
         access.up();
 
     }
@@ -102,7 +99,6 @@ public class Kitchen {
      * @param deliveredCount ABCD
      * @throws IOException DE
      */
-
     public void AlertTheWaiter(int deliveredCount) throws IOException {
         access.down();
         System.out.println("Kitchen     Chef        Alert the waiter");
@@ -111,7 +107,7 @@ public class Kitchen {
             barStub.waiterInTheBarUp();
             System.out.println("Kitchen     Chef        Alert the waiter Up");
         }
-//        gr.updateChefState(Chef_State.DLP);
+        generalRepoStub.updateChefState(Chef_State.DLP);
         access.up();
         waiterWaitingForPortion.up();
     }
@@ -125,7 +121,7 @@ public class Kitchen {
         waiterWaitingForPortion.down();
         access.down();
         System.out.println("Kitchen     Waiter      Collect Portion " + PortionCounter);
-//        gr.updateWaiterState(Waiter_State.WFP);
+        generalRepoStub.updateWaiterState(Waiter_State.WFP);
         PortionCounter++;
         access.up();
     }
@@ -143,7 +139,6 @@ public class Kitchen {
      * @param StudentSize
      * @return true of false
      */
-
     public boolean AllPortionsBeenDelivered(int StudentSize) {
         if (PortionCounter == StudentSize) {
             System.out.println("Kitchen     Chef        All Portions Delivered");
@@ -157,11 +152,10 @@ public class Kitchen {
      *
      * @throws IOException
      */
-
     public void HaveNextPortionReady() throws IOException {
         chefWaitingForDelivery.down();
         access.down();
-//        gr.updateChefState(Chef_State.DIP);
+        generalRepoStub.updateChefState(Chef_State.DIP);
         System.out.println("Kitchen     Chef        Have Next Portion Ready");
         access.up();
     }
@@ -172,18 +166,17 @@ public class Kitchen {
      * @param MaxRound
      * @throws IOException
      */
-
     public void ContinuePreparation(int MaxRound) throws IOException {
         barStub.waitingForStudentsToFinishDown();
         access.down();
         System.out.println("Kitchen     Chef        Continue Preparation");
-//        gr.updateChefState(Chef_State.PTC);
+        generalRepoStub.updateChefState(Chef_State.PTC);
         PortionCounter = 0;
         CourseCounter++;
         if (CourseCounter == MaxRound) {
             HasTheOrderBeenCompleted = true;
         }
-//        gr.updateCourse(CourseCounter);
+        generalRepoStub.updateCourse(CourseCounter);
         access.up();
     }
 
@@ -192,11 +185,10 @@ public class Kitchen {
      *
      * @throws IOException
      */
-
     public void cleanup() throws IOException {
         access.down();
         System.out.println("Kitchen     Chef        Cleanup");
-//        gr.updateChefState(Chef_State.CTS);
+        generalRepoStub.updateChefState(Chef_State.CTS);
         access.up();
 
     }
@@ -206,7 +198,6 @@ public class Kitchen {
      *
      * @return true or false
      */
-
     public boolean HaveTheOrderBeenCompleted() {
         return HasTheOrderBeenCompleted;
     }

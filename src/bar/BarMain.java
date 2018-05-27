@@ -3,6 +3,7 @@ package bar;
 import comInf.Info;
 import genclass.GenericIO;
 import java.net.SocketTimeoutException;
+import stubs.GeneralRepoStub;
 
 /**
  * Este tipo de dados simula uma solução do lado do servidor do Problema dos
@@ -28,16 +29,21 @@ public class BarMain {
 
         int coursesNumber = Info.coursesNumber;
         int studentNumber = Info.studentNumber;
+        String generalRepoHostName = Info.generalRepoHostName;
+        int generalRepoPortNumber = Info.generalRepoPortNumber;
 
         Bar bar;
         BarInterface barInterface;
         ServerCom scon, sconi;                               // canais de comunicação
         ClientProxy cliProxy;                                // thread agente prestador do serviço
+        GeneralRepoStub generalRepoStub = new GeneralRepoStub(generalRepoHostName, generalRepoPortNumber);
+
+        System.out.println("Server Side - Bar");
 
         /* estabelecimento do servico */
         scon = new ServerCom(portNumb);                     // criação do canal de escuta e sua associação
         scon.start();                                       // com o endereço público
-        bar = new Bar(studentNumber);
+        bar = new Bar(studentNumber, generalRepoStub);
         barInterface = new BarInterface(bar);
         GenericIO.writelnString("O serviço foi estabelecido!");
         GenericIO.writelnString("O servidor esta em escuta.");

@@ -96,7 +96,7 @@ public class TableInterface {
                 break;
             case Message.ENTER:
                 int studentCount = table.enter(inMessage.getStudentCount());
-                
+
                 outMessage = new Message(Message.SERVERACKNOWLEDGE, studentCount);
                 break;
             case Message.READTHEMENU:
@@ -157,6 +157,11 @@ public class TableInterface {
             case Message.EXIT:
                 table.exit(inMessage.getStudentCount());
                 outMessage = new Message(Message.SERVERACKNOWLEDGE);
+                break;
+            case Message.SHUTTABLE:                                                        // shutdown do servidor
+                TableMain.waitConnection = false;
+                (((ClientProxy) (Thread.currentThread())).getScon()).setTimeout(10);
+                outMessage = new Message(Message.SERVERACKNOWLEDGE);            // gerar confirmação
                 break;
 
         }

@@ -1,5 +1,8 @@
 package comInf;
 
+import entities_states.Chef_State;
+import entities_states.Student_State;
+import entities_states.Waiter_State;
 import java.io.*;
 
 /**
@@ -44,9 +47,7 @@ public class Message implements Serializable {
     public static final int COLLECTPORTION = 24;
     public static final int CHEFWAITINGFORDELIVERYUP = 25;
     public static final int CALLTHEWAITERTOSERVE = 26;
-    
-    
-    
+
     public static final int ENTER = 27;
     public static final int READTHEMENU = 28;
     public static final int HASEVERYBODYCHOSEN = 29;
@@ -66,7 +67,15 @@ public class Message implements Serializable {
     public static final int PAYTHEWAITER = 46;
     public static final int ALERTWAITERENTERING = 47;
     public static final int SIGNALTHEWAITER = 48;
+    public static final int SHUTKITCHEN = 49;
+    public static final int SHUTBAR = 50;
+    public static final int SHUTTABLE = 51;
+    public static final int SHUTGENERALREPO = 51;
 
+    public static final int UPDATEWAITERSTATE = 52;
+    public static final int UPDATECHEFSTATE = 53;
+    public static final int UPDATECOURSE = 54;
+    public static final int UPDATESTUDENTSTATE = 55;
 
     /* Campos das mensagens */
     /**
@@ -77,9 +86,12 @@ public class Message implements Serializable {
     private boolean bool;
 
     private int studentCount = -1;
-    
+
     private char situation;
 
+    private Waiter_State waiter_state;
+    private Chef_State chef_State;
+    private Student_State student_State;
 
     public Message(int type) {
         msgType = type;
@@ -100,27 +112,52 @@ public class Message implements Serializable {
         this.studentCount = studentCount;
     }
 
+    public Message(int type, Waiter_State waiter_newstate) {
+        msgType = type;
+        waiter_state = waiter_newstate;
+    }
 
-    
+    public Message(int type, Chef_State chef_newstate) {
+        msgType = type;
+        chef_State = chef_newstate;
+    }
+
+    public Message(int type, Student_State StudentNewState, int studentID) {
+        msgType = type;
+        student_State = StudentNewState;
+        studentCount = studentID;
+    }
+
+    public Student_State getStudent_State() {
+        return student_State;
+    }
+
     public int getType() {
         return (msgType);
     }
-    
+
     public boolean getBool() {
         return (bool);
     }
-    
+
     public int getStudentCount() {
         return (studentCount);
     }
 
-    public void setStudentCount(int studentCount) {
-        this.studentCount = studentCount;
-    }
-    
-    
     public char getSituation() {
         return (situation);
+    }
+
+    public Waiter_State getWaiter() {
+        return (waiter_state);
+    }
+
+    public Chef_State getChef() {
+        return (chef_State);
+    }
+
+    public Student_State getStudent() {
+        return (student_State);
     }
 
     /**

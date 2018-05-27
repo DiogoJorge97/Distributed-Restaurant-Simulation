@@ -101,11 +101,16 @@ public class BarInterface {
                 break;
             case Message.ALERTWAITERENTERING:
                 bar.alertWaiterEntering();
-                outMessage = new Message(Message.ALERTWAITERENTERING);
+                outMessage = new Message(Message.SERVERACKNOWLEDGE);
                 break;
             case Message.SIGNALTHEWAITER:
                 bar.SignalTheWaiter();
-                outMessage = new Message(Message.ALERTWAITERENTERING);
+                outMessage = new Message(Message.SERVERACKNOWLEDGE);
+                break;
+            case Message.SHUTBAR:                                                        // shutdown do servidor
+                BarMain.waitConnection = false;
+                (((ClientProxy) (Thread.currentThread())).getScon()).setTimeout(10);
+                outMessage = new Message(Message.SERVERACKNOWLEDGE);            // gerar confirmação
                 break;
         }
 

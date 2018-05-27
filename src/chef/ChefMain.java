@@ -11,16 +11,20 @@ import genclass.GenericIO;
  * protocolo TCP.
  */
 public class ChefMain {
+
     public static void main(String[] args) throws InterruptedException {
         int coursesNumber = 3;
         int studentNumber = 7;
         String serverHostName = "localhost";
         int serverPortNumber = 22676;
-        
+
+        System.out.println("Client Side - Chef");
+
         KitchenStub kitchenStub = new KitchenStub(serverHostName, serverPortNumber);
-        Chef chef = new Chef(kitchenStub, studentNumber, coursesNumber);
+        Chef chef = new Chef(kitchenStub, coursesNumber, studentNumber);
 
         chef.start();
         chef.join();
+        kitchenStub.shutdown();
     }
 }

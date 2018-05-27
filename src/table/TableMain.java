@@ -5,6 +5,7 @@ import kitchen.*;
 import genclass.GenericIO;
 import java.net.SocketTimeoutException;
 import stubs.BarStub;
+import stubs.GeneralRepoStub;
 import stubs.KitchenStub;
 
 /**
@@ -36,6 +37,8 @@ public class TableMain {
         int barPortNumber = Info.barPortNumber;
         String kitchenHostName = Info.kitchenHostName;
         int kitchenPortNumber = Info.kitchenPortNumber;
+        String generalRepoHostName = Info.generalRepoHostName;
+        int generalRepoPortNumber = Info.generalRepoPortNumber;
 
         Table table;
         TableInterface tableInterface;
@@ -44,12 +47,15 @@ public class TableMain {
         ServerCom scon, sconi;                               // canais de comunicação
         ClientProxy cliProxy;                                // thread agente prestador do serviço
 
+        System.out.println("Server Side - Table");
+
         /* estabelecimento do servico */
         scon = new ServerCom(portNumb);                     // criação do canal de escuta e sua associação
         scon.start();                                       // com o endereço público
         kitchenStub = new KitchenStub(kitchenHostName, kitchenPortNumber);
         barStub = new BarStub(barHostName, barPortNumber);
-        table = new Table(studentNumber, coursesNumber, barStub, kitchenStub);
+        GeneralRepoStub generalRepoStub = new GeneralRepoStub(generalRepoHostName, generalRepoPortNumber);
+        table = new Table(studentNumber, coursesNumber, barStub, kitchenStub, generalRepoStub);
         tableInterface = new TableInterface(table);
         GenericIO.writelnString("O serviço foi estabelecido!");
         GenericIO.writelnString("O servidor esta em escuta.");

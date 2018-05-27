@@ -29,6 +29,8 @@ public class WaiterMain {
         String tableHostName = "localhost";
         int tablePortNumber = 22674;
 
+        System.out.println("Client Side - Waiter");
+
         KitchenStub kitchenStub = new KitchenStub(kitchenHostName, kitchenPortNumber);
         BarStub barStub = new BarStub(barHostName, barPortNumber);
         TableStub tableStub = new TableStub(tableHostName, tablePortNumber);
@@ -36,5 +38,8 @@ public class WaiterMain {
 
         waiter.start();
         waiter.join();
+        barStub.shutdown();
+        tableStub.shutdown();
+        
     }
 }

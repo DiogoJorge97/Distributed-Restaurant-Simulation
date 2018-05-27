@@ -1,4 +1,4 @@
-package kitchen;
+package generalRepository;
 
 import comInf.Message;
 import comInf.MessageException;
@@ -9,22 +9,17 @@ import java.io.IOException;
  * dos Barbeiros Sonolentos que implementa o modelo cliente-servidor de tipo 2
  * (replicação do servidor) com lançamento estático dos threads barbeiro.
  */
-public class KitchenInterface {
+public class GeneralRepoInterface {
 
     /**
      * Barbearia (representa o serviço a ser prestado)
      *
      * @serialField bShop
      */
-    private Kitchen kitchen;
+    private GeneralRepo generalRepo;
 
-    /**
-     * Instanciação do interface à barbearia.
-     *
-     * @param kitchen barbearia
-     */
-    public KitchenInterface(Kitchen kitchen) {
-        this.kitchen = kitchen;
+    public GeneralRepoInterface(GeneralRepo generalRepo) {
+        this.generalRepo = generalRepo;
     }
 
     /**
@@ -71,56 +66,27 @@ public class KitchenInterface {
 
         /* seu processamento */
         switch (inMessage.getType()) {
-            case Message.WATCHTHENEWS:
-                kitchen.WatchTheNews();
+            case Message.UPDATEWAITERSTATE:
+                generalRepo.updateWaiterState(inMessage.getWaiter());
                 outMessage = new Message(Message.SERVERACKNOWLEDGE);
                 break;
-            case Message.STARTPREPARATION:
-                kitchen.StartPreparation();
+            case Message.UPDATECHEFSTATE:
+                generalRepo.updateChefState(inMessage.getChef());
                 outMessage = new Message(Message.SERVERACKNOWLEDGE);
                 break;
-            case Message.PROCEEDTOPRESENTATION:
-                kitchen.ProceedToPresentation();
+            case Message.UPDATESTUDENTSTATE:
+                generalRepo.updateStudentState(inMessage.getStudent(), inMessage.getStudentCount());
                 outMessage = new Message(Message.SERVERACKNOWLEDGE);
                 break;
-            case Message.ALERTTHEWAITER:
-                kitchen.AlertTheWaiter(inMessage.getStudentCount());
+                
+            case Message.UPDATECOURSE:
+                generalRepo.updateCourse(inMessage.getStudentCount());
                 outMessage = new Message(Message.SERVERACKNOWLEDGE);
                 break;
-            case Message.ALLPORTIONSBEENDELIVERED:
-                boolean allportionsdelivered = kitchen.AllPortionsBeenDelivered(kitchen.studentNumber);
-                outMessage = new Message(Message.SERVERACKNOWLEDGE, allportionsdelivered);
-                break;
-            case Message.HAVENEXTPORTIONREADY:
-                kitchen.HaveNextPortionReady();
-                outMessage = new Message(Message.SERVERACKNOWLEDGE);
-                break;
-            case Message.HAVETHEORDERBEENCOMPLETED:
-                boolean completed = kitchen.HaveTheOrderBeenCompleted();
-                outMessage = new Message(Message.SERVERACKNOWLEDGE, completed);
-                break;
-            case Message.CONTINUEPREPARATION:
-                kitchen.ContinuePreparation(kitchen.coursesNumber);
-                outMessage = new Message(Message.SERVERACKNOWLEDGE);
-                break;
-            case Message.CLEANUP:
-                kitchen.cleanup();
-                outMessage = new Message(Message.SERVERACKNOWLEDGE);
-                break;
-            case Message.HANDNOTETOTHECHEF:
-                kitchen.handTheNoteToTheChef();
-                outMessage = new Message(Message.SERVERACKNOWLEDGE);
-                break;
-            case Message.COLLECTPORTION:
-                kitchen.collectPortion();
-                outMessage = new Message(Message.SERVERACKNOWLEDGE);
-                break;
-            case Message.CHEFWAITINGFORDELIVERYUP:
-                kitchen.chefWaitingForDeliveryUp();
-                outMessage = new Message(Message.SERVERACKNOWLEDGE);
-                break;
-            case Message.SHUTKITCHEN:                                                        // shutdown do servidor
-                KitchenMain.waitConnection = false;
+
+            case Message.SHUTGENERALREPO:                                                        // shutdown do servidor
+                generalRepo.closeWriter();
+                GeneralRepoMain.waitConnection = false;
                 (((ClientProxy) (Thread.currentThread())).getScon()).setTimeout(10);
                 outMessage = new Message(Message.SERVERACKNOWLEDGE);            // gerar confirmação
                 break;

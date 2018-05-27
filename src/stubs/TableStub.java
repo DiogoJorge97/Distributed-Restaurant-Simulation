@@ -468,4 +468,25 @@ public class TableStub {
         con.close();
     }
 
+    public void shutdown() {
+        ClientCom con = new ClientCom(serverHostName, serverPortNumber);
+        Message inMessage, outMessage;
+
+        while (!con.open()) // aguarda ligação
+        {
+            try {
+                Thread.currentThread().sleep((long) (10));
+            } catch (InterruptedException e) {
+            }
+        }
+        outMessage = new Message(Message.SHUTTABLE);
+        con.writeObject(outMessage);
+        inMessage = (Message) con.readObject();
+        if (inMessage.getType() != Message.SERVERACKNOWLEDGE) {
+            GenericIO.writelnString("Thread " + Thread.currentThread().getName() + ": Tipo inválido!");
+            GenericIO.writelnString(inMessage.toString());
+            System.exit(1);
+        }
+        con.close();
+    }
 }
