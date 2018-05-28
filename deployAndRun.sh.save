@@ -1,0 +1,7 @@
+xterm  -T "Log Server Side" -hold -e "./src/Scripts/logServerSideDeployAndRun.sh" &
+xterm  -T "Kitchen Server Side" -hold -e ".Scripts//src/kitchenServerSideDeployAndRun.sh" &
+xterm  -T "Bar Server Side" -hold -e "./src/barServerSideDeployAndRun.sh" &
+xterm  -T "Table Server Side" -hold -e "./src/tableServerSideDeployAndRun.sh" &
+xterm  -T "Waiter Client Side" -hold -e "./src/waiterClientSideDeployAndRun.sh" &
+xterm  -T "Chef Client Side" -hold -e "./src/chefClientSideDeployAndRun.sh" &
+xterm  -T "Student Client Side" -hold -e "./src/studentClientSideDeployAndRun.sh" &

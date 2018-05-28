@@ -1,11 +1,9 @@
 package waiter;
 
-import stubs.BarStub;
-import stubs.TableStub;
 import stubs.KitchenStub;
 import stubs.BarStub;
 import stubs.TableStub;
-import genclass.GenericIO;
+import comInf.Info;
 
 /**
  * Este tipo de dados simula uma solução do lado do cliente do Problema dos
@@ -20,14 +18,12 @@ public class WaiterMain {
      * Programa principal.
      */
     public static void main(String[] args) throws InterruptedException {
-        int coursesNumber = 3;
-        int studentNumber = 7;
-        String kitchenHostName = "localhost";
-        int kitchenPortNumber = 22676;
-        String barHostName = "localhost";
-        int barPortNumber = 22675;
-        String tableHostName = "localhost";
-        int tablePortNumber = 22674;
+        String kitchenHostName = Info.kitchenHostName;
+        int kitchenPortNumber = Info.kitchenPortNumber;
+        String barHostName = Info.barHostName;
+        int barPortNumber = Info.barPortNumber;
+        String tableHostName = Info.tableHostName;
+        int tablePortNumber = Info.tablePortNumber;
 
         System.out.println("Client Side - Waiter");
 

@@ -22,7 +22,7 @@ public class TableMain {
      *
      * @serialField portNumb
      */
-    private static final int portNumb = 22674;
+    private static final int portNumb = Info.tablePortNumber;
     public static boolean waitConnection;                              // sinalização de actividade
 
     /**

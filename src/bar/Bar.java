@@ -6,7 +6,7 @@ import java.io.IOException;
 import stubs.GeneralRepoStub;
 
 /**
- * @author Ricardo Antão
+ * Defines the bar that constitutes the service provided
  * @author Diogo Jorge
  */
 public class Bar {
@@ -30,8 +30,8 @@ public class Bar {
     /**
      * Waiter in the bar waiting for wake up actions
      *
-     * @return Next situation
-     * @throws IOException
+     * @return Waiter next situation
+     * @throws IOException if the waiter state can't be written to the logger file
      */
     public char lookAround() throws IOException {
         access.down();
@@ -47,7 +47,7 @@ public class Bar {
     /**
      * Changes waiter situation
      *
-     * @param newsituation
+     * @param newsituation Waiter new situation
      */
     public void changeSituation(char newsituation) {
         situation = newsituation;
@@ -76,7 +76,7 @@ public class Bar {
     /**
      * Waiter returns to the bar
      *
-     * @throws IOException
+     * @throws IOException if the waiter state can't be written to the logger file 
      */
     public void returnToTheBar() throws IOException {
         access.down();
@@ -88,7 +88,7 @@ public class Bar {
     /**
      * Waiter prepares the bill
      *
-     * @throws IOException
+     * @throws IOException if the waiter state can't be written to the logger file
      */
     public void prepareTheBill() throws IOException {
         generalRepoStub.updateWaiterState(Waiter_State.PTB);

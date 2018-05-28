@@ -5,38 +5,40 @@ import comInf.MessageException;
 import java.io.IOException;
 
 /**
- * Este tipo de dados define o interface à barbearia numa solução do Problema
- * dos Barbeiros Sonolentos que implementa o modelo cliente-servidor de tipo 2
- * (replicação do servidor) com lançamento estático dos threads barbeiro.
+ * Class responsible for decoding the messages received from the client side of the problem and instantiate the proper methods on the Bar (server side)
+ * 
  */
+
+//TODO ADD authors in all files
+//TODO delete all genericIO dependecies 
+//TODO Add inMessage validations to all interfaces
 public class BarInterface {
 
     /**
-     * Barbearia (representa o serviço a ser prestado)
+     * Bar (represents the service)
      *
-     * @serialField bShop
+     * @serialField bar 
      */
-    private Bar bar;
+    private final Bar bar;
 
     /**
-     * Instanciação do interface à barbearia.
+     * Create an instance of the bar interface.
      *
-     * @param bar barbearia
+     * @param bar bar
      */
     public BarInterface(Bar bar) {
         this.bar = bar;
     }
 
     /**
-     * Processamento das mensagens através da execução da tarefa correspondente.
-     * Geração de uma mensagem de resposta.
+     * Message processing based on the execution of corresponding tasks.
+     * Answer message creation
      *
-     * @param inMessage mensagem com o pedido
+     * @param inMessage message containing the client request
      *
-     * @return mensagem de resposta
+     * @return Reply message
      *
-     * @throws MessageException se a mensagem com o pedido for considerada
-     * inválida
+     * @throws MessageException if the request message is considered invalid
      */
     public Message processAndReply(Message inMessage) throws MessageException, IOException {
         Message outMessage = null;                           // mensagem de resposta

@@ -6,24 +6,25 @@ import java.net.SocketTimeoutException;
 import stubs.GeneralRepoStub;
 
 /**
- * Este tipo de dados simula uma solução do lado do servidor do Problema dos
- * Barbeiros Sonolentos que implementa o modelo cliente-servidor de tipo 2
- * (replicação do servidor) com lançamento estático dos threads barbeiro. A
- * comunicação baseia-se em passagem de mensagens sobre sockets usando o
- * protocolo TCP.
+ * Class responsible for instantiating all the objects used by the Bar (server side)
+ * @author Diogo Jorge
  */
 public class BarMain {
 
     /**
-     * Número do port de escuta do serviço a ser prestado (4000, por defeito)
+     * Server port number
      *
      * @serialField portNumb
      */
     private static final int portNumb = Info.barPortNumber;
+
+    /**
+     * Boolean value that represents the connection state
+     */
     public static boolean waitConnection;                              // sinalização de actividade
 
     /**
-     * Programa principal.
+     * Main bar program .
      */
     public static void main(String[] args) {
 

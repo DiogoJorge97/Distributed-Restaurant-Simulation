@@ -3,10 +3,6 @@ package student;
 import comInf.Info;
 import stubs.BarStub;
 import stubs.TableStub;
-import stubs.KitchenStub;
-import stubs.BarStub;
-import stubs.TableStub;
-import genclass.GenericIO;
 
 /**
  * Este tipo de dados simula uma solução do lado do cliente do Problema dos
@@ -19,6 +15,9 @@ public class StudentMain {
 
     /**
      * Programa principal.
+     *
+     * @param args
+     * @throws java.lang.InterruptedException
      */
     public static void main(String[] args) throws InterruptedException {
         int coursesNumber = Info.coursesNumber;
@@ -27,7 +26,6 @@ public class StudentMain {
         int barPortNumber = Info.barPortNumber;
         String tableHostName = Info.tableHostName;
         int tablePortNumber = Info.tablePortNumber;
-
 
         System.out.println("Client Side - Students");
 

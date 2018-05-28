@@ -21,8 +21,6 @@ public class Student extends Thread {
     private final int StudentsNumber;
     private final int studentID;
 
-
-    
     public Student(TableStub tableStub, BarStub barStub, int CoursesNumber, int StudentsNumber, int id) {
         this.tableStub = tableStub;
         this.barStub = barStub;
@@ -35,43 +33,44 @@ public class Student extends Thread {
     public void run() {
         try {
             WalkABit();
-            int arrivalOrder;
-            arrivalOrder = tableStub.enter(studentID);
-            tableStub.readTheMenu(studentID); 
-            if (arrivalOrder == 1) {
-                while (!tableStub.hasEverybodyChosen()) {
-                    tableStub.prepareTheOrder(studentID);
-                }
-                barStub.callTheWaiter();
-                tableStub.describeTheOrder();
-                tableStub.joinTheTalk(studentID);
-            } else {
-                tableStub.informCompanion(studentID);
-            }
-
-            for (int i = 0; i < CoursesNumber; i++) {
-                tableStub.startEating(studentID);  
-                tableStub.endEating(studentID);
-                if (tableStub.hasEverybodyFinished(i)) {
-                    if (i != (CoursesNumber - 1)) {
-                        barStub.SignalTheWaiter();
-                    }
-                }
-            }
-            if (arrivalOrder == (StudentsNumber)) {
-                tableStub.shouldHaveArrivedEarlier(studentID); 
-                tableStub.honorTheBill();
-            }
-            tableStub.exit(studentID);
         } catch (IOException ex) {
             Logger.getLogger(Student.class.getName()).log(Level.SEVERE, null, ex);
         }
+        int arrivalOrder;
+        System.out.println("WHY");
+        arrivalOrder = tableStub.enter(studentID);
+        tableStub.readTheMenu(studentID);
+        if (arrivalOrder == 1) {
+            while (!tableStub.hasEverybodyChosen()) {
+                tableStub.prepareTheOrder(studentID);
+            }
+            barStub.callTheWaiter();
+            tableStub.describeTheOrder();
+            tableStub.joinTheTalk(studentID);
+        } else {
+            tableStub.informCompanion(studentID);
+        }
+
+        for (int i = 0; i < CoursesNumber; i++) {
+            tableStub.startEating(studentID);
+            tableStub.endEating(studentID);
+            if (tableStub.hasEverybodyFinished(i)) {
+                if (i != (CoursesNumber - 1)) {
+                    barStub.SignalTheWaiter();
+                }
+            }
+        }
+        if (arrivalOrder == (StudentsNumber)) {
+            tableStub.shouldHaveArrivedEarlier(studentID);
+            tableStub.honorTheBill();
+        }
+        tableStub.exit(studentID);
 
     }
 
     private void WalkABit() throws IOException {
         try {
-            Thread.sleep((long) ((Math.random()*1500)+1000));    
+            Thread.sleep((long) ((Math.random() * 1500) + 1000));
         } catch (InterruptedException ex) {
         }
 

@@ -15,8 +15,8 @@ public class ChefMain {
     public static void main(String[] args) throws InterruptedException {
         int coursesNumber = 3;
         int studentNumber = 7;
-        String serverHostName = "localhost";
-        int serverPortNumber = 22676;
+        String serverHostName = comInf.Info.kitchenHostName;
+        int serverPortNumber = comInf.Info.kitchenPortNumber;
 
         System.out.println("Client Side - Chef");
 
