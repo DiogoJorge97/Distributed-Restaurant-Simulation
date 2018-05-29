@@ -1,6 +1,5 @@
 package kitchen;
 
-import genclass.GenericIO;
 import comInf.Message;
 import comInf.MessageException;
 import java.io.IOException;
@@ -8,16 +7,14 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * Este tipo de dados define o thread agente prestador de serviço para uma
- * solução do Problema dos Barbeiros Sonolentos que implementa o modelo
- * cliente-servidor de tipo 2 (replicação do servidor) com lançamento estático
- * dos threads barbeiro. A comunicação baseia-se em passagem de mensagens sobre
- * sockets usando o protocolo TCP.
+ * Class defines the service agent 
+ * The communication is based on sending and receiving messages using TCP protocol  
+ *
  */
 public class ClientProxy extends Thread {
 
     /**
-     * Contador de threads lançados
+     * Threads counter
      *
      * @serialField nProxy
      */
@@ -25,24 +22,24 @@ public class ClientProxy extends Thread {
     private static int nProxy = 0;
 
     /**
-     * Canal de comunicação
+     * Communication channel 
      *
      * @serialField sconi
      */
     private ServerCom sconi;
 
     /**
-     * Interface à barbearia
+     * Kitchen Interface 
      *
-     * @serialField bShopInter
+     * @serialField kitchenInterface
      */
     private KitchenInterface kitchenInterface;
 
     /**
-     * Instanciação do interface à barbearia.
+     * Creation of interface instance
      *
-     * @param sconi canal de comunicação
-     * @param bShopInter interface à barbearia
+     * @param sconi Communication channel
+     * @param kitchenInterface Kitchen Interface
      */
     public ClientProxy(ServerCom sconi, KitchenInterface kitchenInterface) {
         super("Proxy_" + ClientProxy.getProxyId());
@@ -53,7 +50,7 @@ public class ClientProxy extends Thread {
 
 
     /**
-     * Ciclo de vida do thread agente prestador de serviço.
+     * Service agent thread life cycle
      */
     @Override
     public void run() {
@@ -64,8 +61,8 @@ public class ClientProxy extends Thread {
         try {
             outMessage = kitchenInterface.processAndReply(inMessage);         // processá-lo
         } catch (MessageException e) {
-            GenericIO.writelnString("Thread " + getName() + ": " + e.getMessage() + "!");
-            GenericIO.writelnString(e.getMessageVal().toString());
+            System.out.println("Thread " + getName() + ": " + e.getMessage() + "!");
+            System.out.println(e.getMessageVal().toString());
             System.exit(1);
         } catch (IOException ex) {
             Logger.getLogger(ClientProxy.class.getName()).log(Level.SEVERE, null, ex);
@@ -75,9 +72,9 @@ public class ClientProxy extends Thread {
     }
 
     /**
-     * Geração do identificador da instanciação.
+     * Instantiation identifier
      *
-     * @return identificador da instanciação
+     * @return Proxy identifier
      */
     private static int getProxyId() {
         Class<?> cl = null;                                  // representação do tipo de dados ClientProxy na máquina
@@ -87,8 +84,7 @@ public class ClientProxy extends Thread {
         try {
             cl = Class.forName("kitchen.ClientProxy");
         } catch (ClassNotFoundException e) {
-            GenericIO.writelnString("O tipo de dados ClientProxy não foi encontrado!");
-            e.printStackTrace();
+            System.out.println("O tipo de dados ClientProxy não foi encontrado!");
             System.exit(1);
         }
 
@@ -101,9 +97,9 @@ public class ClientProxy extends Thread {
     }
 
     /**
-     * Obtenção do canal de comunicação.
+     * Communication channel getter 
      *
-     * @return canal de comunicação
+     * @return Communication channel
      */
     public ServerCom getScon() {
         return sconi;

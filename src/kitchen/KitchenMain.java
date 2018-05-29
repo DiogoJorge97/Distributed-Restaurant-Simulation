@@ -1,25 +1,32 @@
 package kitchen;
 
-import genclass.GenericIO;
 import java.net.SocketTimeoutException;
 import stubs.BarStub;
 import comInf.Info;
 import stubs.GeneralRepoStub;
 
 /**
- * Este tipo de dados simula uma solução do lado do servidor do Problema dos
- * Barbeiros Sonolentos que implementa o modelo cliente-servidor de tipo 2
- * (replicação do servidor) com lançamento estático dos threads barbeiro. A
- * comunicação baseia-se em passagem de mensagens sobre sockets usando o
- * protocolo TCP.
+ * Class responsible for instantiating all the objects used by the Kitchen
+ * (server side)
+ *
+ * @author Diogo Jorge
  */
 public class KitchenMain {
 
+    /**
+     * Server port number
+     *
+     * @serialField portNumb
+     */
     private static final int portNumb = Info.kitchenPortNumber;
+    
+    /**
+     * Boolean value that represents the connection state
+     */
     public static boolean waitConnection;                              // sinalização de actividade
 
     /**
-     * Programa principal.
+     * Kitchen's main program .
      */
     public static void main(String[] args) {
 
@@ -45,8 +52,8 @@ public class KitchenMain {
         BarStub barStub = new BarStub(barHostName, barPortNumber);
         kitchen = new Kitchen(coursesNumber, studentNumber, barStub, generalRepoStub);
         kitchenInterface = new KitchenInterface(kitchen);
-        GenericIO.writelnString("O serviço foi estabelecido!");
-        GenericIO.writelnString("O servidor esta em escuta.");
+        System.out.println("O serviço foi estabelecido!");
+        System.out.println("O servidor esta em escuta.");
 
         /* processamento de pedidos */
         waitConnection = true;
@@ -59,8 +66,7 @@ public class KitchenMain {
             }
         }
         scon.end();                                         // terminação de operações
-        GenericIO.writelnString("O servidor foi desactivado.");
+        System.out.println("O servidor foi desactivado.");
         generalRepoStub.shutdown();
-        //TODO this is not here
     }
 }

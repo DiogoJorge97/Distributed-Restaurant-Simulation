@@ -6,16 +6,16 @@ import stubs.TableStub;
 import comInf.Info;
 
 /**
- * Este tipo de dados simula uma solução do lado do cliente do Problema dos
- * Barbeiros Sonolentos que implementa o modelo cliente-servidor de tipo 2
- * (replicação do servidor) com lançamento estático dos threads barbeiro. A
- * comunicação baseia-se em passagem de mensagens sobre sockets usando o
- * protocolo TCP.
+ * Class responsible for instantiating all the objects used by the Student
+ *
+ * @author Diogo Jorge
  */
 public class WaiterMain {
 
     /**
-     * Programa principal.
+     * Waiter's main program .
+     * @param args
+     * @throws java.lang.InterruptedException if thread is interrupted
      */
     public static void main(String[] args) throws InterruptedException {
         String kitchenHostName = Info.kitchenHostName;

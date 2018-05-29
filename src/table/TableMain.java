@@ -1,32 +1,33 @@
 package table;
 
 import comInf.Info;
-import kitchen.*;
-import genclass.GenericIO;
 import java.net.SocketTimeoutException;
 import stubs.BarStub;
 import stubs.GeneralRepoStub;
 import stubs.KitchenStub;
 
 /**
- * Este tipo de dados simula uma solução do lado do servidor do Problema dos
- * Barbeiros Sonolentos que implementa o modelo cliente-servidor de tipo 2
- * (replicação do servidor) com lançamento estático dos threads barbeiro. A
- * comunicação baseia-se em passagem de mensagens sobre sockets usando o
- * protocolo TCP.
+ * Class responsible for instantiating all the objects used by the Table (server
+ * side)
+ *
+ * @author Diogo Jorge
  */
 public class TableMain {
 
     /**
-     * Número do port de escuta do serviço a ser prestado (4000, por defeito)
+     * Server port number
      *
      * @serialField portNumb
      */
     private static final int portNumb = Info.tablePortNumber;
+    
+    /**
+     * Boolean value that represents the connection state
+     */
     public static boolean waitConnection;                              // sinalização de actividade
 
     /**
-     * Programa principal.
+     *  Table's main program .
      */
     public static void main(String[] args) {
 
@@ -57,8 +58,8 @@ public class TableMain {
         GeneralRepoStub generalRepoStub = new GeneralRepoStub(generalRepoHostName, generalRepoPortNumber);
         table = new Table(studentNumber, coursesNumber, barStub, kitchenStub, generalRepoStub);
         tableInterface = new TableInterface(table);
-        GenericIO.writelnString("O serviço foi estabelecido!");
-        GenericIO.writelnString("O servidor esta em escuta.");
+        System.out.println("O serviço foi estabelecido!");
+        System.out.println("O servidor esta em escuta.");
 
         /* processamento de pedidos */
         waitConnection = true;
@@ -71,6 +72,6 @@ public class TableMain {
             }
         }
         scon.end();                                         // terminação de operações
-        GenericIO.writelnString("O servidor foi desactivado.");
+        System.out.println("O servidor foi desactivado.");
     }
 }

@@ -1,6 +1,5 @@
 package bar;
 
-import genclass.GenericIO;
 import comInf.Message;
 import comInf.MessageException;
 import java.io.IOException;
@@ -32,12 +31,12 @@ public class ClientProxy extends Thread {
     /**
      * Bar Interface 
      *
-     * @serialField bShopInter
+     * @serialField barInterface
      */
     private BarInterface barInterface;
 
     /**
-     * Instanciação do interface à barbearia.
+     * Creation of interface instance
      *
      * @param sconi Communication channel
      * @param barInterface Bar Interface
@@ -62,8 +61,8 @@ public class ClientProxy extends Thread {
         try {
             outMessage = barInterface.processAndReply(inMessage);         // processá-lo
         } catch (MessageException e) {
-            GenericIO.writelnString("Thread " + getName() + ": " + e.getMessage() + "!");
-            GenericIO.writelnString(e.getMessageVal().toString());
+            System.out.println("Thread " + getName() + ": " + e.getMessage() + "!");
+            System.out.println(e.getMessageVal().toString());
             System.exit(1);
         } catch (IOException ex) {
             Logger.getLogger(ClientProxy.class.getName()).log(Level.SEVERE, null, ex);
@@ -85,7 +84,7 @@ public class ClientProxy extends Thread {
         try {
             cl = Class.forName("bar.ClientProxy");
         } catch (ClassNotFoundException e) {
-            GenericIO.writelnString("O tipo de dados ClientProxy não foi encontrado!");
+            System.out.println("O tipo de dados ClientProxy não foi encontrado!");
             e.printStackTrace();
             System.exit(1);
         }

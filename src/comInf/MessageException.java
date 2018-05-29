@@ -1,23 +1,22 @@
 package comInf;
 
 /**
- *   Este tipo de dados define uma excepção que é lançada se a mensagem for inválida.
+ * This class defines an exception that is called if a message is not valid
  */
 
 public class MessageException extends Exception
 {
   /**
-   *  Mensagem que originou a excepção
+   *  Message that generated the exception
    *    @serialField msg
    */
 
    private Message msg;
 
   /**
-   *  Instanciação de uma mensagem.
-   *
-   *    @param errorMessage texto sinalizando a condição de erro
-   *    @param msg mensagem que está na origem da excepção
+   *  Create message instantiation 
+   *    @param errorMessage text signalizing error
+   *    @param msg message that generated the exception
    */
 
    public MessageException (String errorMessage, Message msg)
@@ -27,9 +26,9 @@ public class MessageException extends Exception
    }
 
   /**
-   *  Obtenção da mensagem que originou a excepção.
+   *  Message that generated the exception getter
    *
-   *    @return mensagem
+   *    @return message
    */
 
    public Message getMessageVal ()

@@ -1,7 +1,6 @@
 package bar;
 
 import comInf.Info;
-import genclass.GenericIO;
 import java.net.SocketTimeoutException;
 import stubs.GeneralRepoStub;
 
@@ -24,7 +23,7 @@ public class BarMain {
     public static boolean waitConnection;                              // sinalização de actividade
 
     /**
-     * Main bar program .
+     * Bar's main program .
      */
     public static void main(String[] args) {
 
@@ -46,8 +45,8 @@ public class BarMain {
         scon.start();                                       // com o endereço público
         bar = new Bar(studentNumber, generalRepoStub);
         barInterface = new BarInterface(bar);
-        GenericIO.writelnString("O serviço foi estabelecido!");
-        GenericIO.writelnString("O servidor esta em escuta.");
+        System.out.println("O serviço foi estabelecido!");
+        System.out.println("O servidor esta em escuta.");
 
         /* processamento de pedidos */
         waitConnection = true;
@@ -60,6 +59,6 @@ public class BarMain {
             }
         }
         scon.end();                                         // terminação de operações
-        GenericIO.writelnString("O servidor foi desactivado.");
+        System.out.println("O servidor foi desactivado.");
     }
 }

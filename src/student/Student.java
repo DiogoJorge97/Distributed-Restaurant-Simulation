@@ -1,15 +1,12 @@
 package student;
 
-import entities_states.Student_State;
 import stubs.BarStub;
 import stubs.TableStub;
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
 
 /**
+ * Defines the student that constitutes the service provided
  *
- * @author Ricardo Antão
  * @author Diogo Jorge
  */
 public class Student extends Thread {
@@ -21,6 +18,15 @@ public class Student extends Thread {
     private final int StudentsNumber;
     private final int studentID;
 
+    /**
+     * Student's constructor
+     *
+     * @param tableStub table stub
+     * @param barStub bar stub
+     * @param CoursesNumber number of courses
+     * @param StudentsNumber number of students in the restaurant
+     * @param id student's identifier
+     */
     public Student(TableStub tableStub, BarStub barStub, int CoursesNumber, int StudentsNumber, int id) {
         this.tableStub = tableStub;
         this.barStub = barStub;
@@ -29,15 +35,13 @@ public class Student extends Thread {
         this.studentID = id;
     }
 
+    /**
+     * Student's run life
+     */
     @Override
     public void run() {
-        try {
-            WalkABit();
-        } catch (IOException ex) {
-            Logger.getLogger(Student.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        WalkABit();
         int arrivalOrder;
-        System.out.println("WHY");
         arrivalOrder = tableStub.enter(studentID);
         tableStub.readTheMenu(studentID);
         if (arrivalOrder == 1) {
@@ -68,7 +72,10 @@ public class Student extends Thread {
 
     }
 
-    private void WalkABit() throws IOException {
+    /**
+     *  Student walks to the restaurant
+     */
+    private void WalkABit() {
         try {
             Thread.sleep((long) ((Math.random() * 1500) + 1000));
         } catch (InterruptedException ex) {

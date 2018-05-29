@@ -1,6 +1,5 @@
 package table;
 
-import kitchen.*;
 import comInf.Message;
 import comInf.MessageException;
 import java.io.IOException;
@@ -8,58 +7,42 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * Este tipo de dados define o interface à barbearia numa solução do Problema
- * dos Barbeiros Sonolentos que implementa o modelo cliente-servidor de tipo 2
- * (replicação do servidor) com lançamento estático dos threads barbeiro.
+ * Class responsible for decoding the messages received from the client side of the problem and instantiate the proper methods on the Table (server side)
+ * 
  */
 public class TableInterface {
 
     /**
-     * Barbearia (representa o serviço a ser prestado)
+     * Table (represents the service)
      *
-     * @serialField bShop
+     * @serialField kitchen 
      */
     private Table table;
 
     /**
-     * Instanciação do interface à barbearia.
+     * Create an instance of the kitchen interface.
      *
-     * @param table barbearia
+     * @param table Table
      */
     public TableInterface(Table table) {
         this.table = table;
     }
 
     /**
-     * Processamento das mensagens através da execução da tarefa correspondente.
-     * Geração de uma mensagem de resposta.
+     * Message processing based on the execution of corresponding tasks.
+     * Answer message creation
      *
-     * @param inMessage mensagem com o pedido
+     * @param inMessage message containing the client request
      *
-     * @return mensagem de resposta
+     * @return Reply message
      *
-     * @throws MessageException se a mensagem com o pedido for considerada
-     * inválida
+     * @throws MessageException if the request message is considered invalid
      */
     public Message processAndReply(Message inMessage) throws MessageException, IOException, InterruptedException {
         Message outMessage = null;                           // mensagem de resposta
 
         /* validação da mensagem recebida */
 //        switch (inMessage.getType()) {
-//            case Message.SALUTETHECLIENT:
-//                break;
-//            case Message.GETTHEPAD:
-//                break;
-//            case Message.DELIVEREPORTION:
-//                break;
-//            case Message.HAVEALLCLIENTSBEENSERVED:
-//                break;
-//            case Message.RESETDELIVEREDCOUNTER:
-//                break;
-//            case Message.PRESENTTHEBILL:
-//                break;
-//            case Message.SAYGOODBYE:
-//                break;
 //            default:
 //                throw new MessageException("Tipo inválido!", inMessage);
 //        }

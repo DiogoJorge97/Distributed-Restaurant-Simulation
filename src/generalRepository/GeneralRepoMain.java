@@ -1,25 +1,33 @@
 package generalRepository;
 
-import kitchen.*;
-import genclass.GenericIO;
 import java.net.SocketTimeoutException;
-import stubs.BarStub;
 import comInf.Info;
 import java.io.IOException;
 
 /**
- * Este tipo de dados simula uma solução do lado do servidor do Problema dos
- * Barbeiros Sonolentos que implementa o modelo cliente-servidor de tipo 2
- * (replicação do servidor) com lançamento estático dos threads barbeiro. A
- * comunicação baseia-se em passagem de mensagens sobre sockets usando o
- * protocolo TCP.
+ * Class responsible for instantiating all the objects used by the General
+ * Repository (server side)
+ *
+ * @author Diogo Jorge
  */
 public class GeneralRepoMain {
+
+    /**
+     * Server port number
+     *
+     * @serialField portNumb
+     */
     private static final int portNumb = Info.generalRepoPortNumber;
+
+    /**
+     * Boolean value that represents the connection state
+     */
     public static boolean waitConnection;                              // sinalização de actividade
 
     /**
-     * Programa principal.
+     * General Repository's main program .
+     * @param args
+     * @throws java.io.IOException if file is not found
      */
     public static void main(String[] args) throws IOException {
 
@@ -34,19 +42,18 @@ public class GeneralRepoMain {
         ClientProxy cliProxy;
 
         // thread agente prestador do serviço
-        
         System.out.println("Server Side - GeneralRepo");
-        
+
         /* estabelecimento do servico */
         scon = new ServerCom(portNumb);                     // criação do canal de escuta e sua associação
         scon.start();                                       // com o endereço público
         generalRepo = new GeneralRepo(Info.filename, generalRepoHostName, generalRepoPortNumber);
         generalRepoInterface = new GeneralRepoInterface(generalRepo);
-        GenericIO.writelnString("O serviço foi estabelecido!");
-        GenericIO.writelnString("O servidor esta em escuta.");
+        System.out.println("O serviço foi estabelecido!");
+        System.out.println("O servidor esta em escuta.");
 
         generalRepo.initFile(Info.filename);
-        
+
         /* processamento de pedidos */
         waitConnection = true;
         while (waitConnection) {
@@ -58,6 +65,6 @@ public class GeneralRepoMain {
             }
         }
         scon.end();                                         // terminação de operações
-        GenericIO.writelnString("O servidor foi desactivado.");
+        System.out.println("O servidor foi desactivado.");
     }
 }

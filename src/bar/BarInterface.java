@@ -9,9 +9,6 @@ import java.io.IOException;
  * 
  */
 
-//TODO ADD authors in all files
-//TODO delete all genericIO dependecies 
-//TODO Add inMessage validations to all interfaces
 public class BarInterface {
 
     /**
@@ -45,16 +42,6 @@ public class BarInterface {
 
         /* validação da mensagem recebida */
 //        switch (inMessage.getType()) {
-//            case Message.LOOKARROUND:
-//                break;
-//            case Message.PREPARETHEBILL:
-//                break;
-//            case Message.RETURNTOBAR:
-//                break;
-//            case Message.WAITERINTHEBARUP:
-//                break;
-//            case Message.WAITINGFORSTUDENTSTOFINISHDOWN:
-//                break;
 //            default:
 //                throw new MessageException("Tipo inválido!", inMessage);
 //        }

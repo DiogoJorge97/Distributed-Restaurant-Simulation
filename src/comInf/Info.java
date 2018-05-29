@@ -6,8 +6,8 @@
 package comInf;
 
 /**
- *
- * @author diogojorge
+ * Problem's general information
+ * @author Diogo Jorge
  */
 public class Info {
 
@@ -22,5 +22,11 @@ public class Info {
     public static int kitchenPortNumber = 22672;
     public static String generalRepoHostName = "l040101-ws01.ua.pt";
     public static int generalRepoPortNumber = 22671;
+
+//    public static String filename = "src/logger.txt";
+//    public static String tableHostName = "localhost";
+//    public static String barHostName = "localhost";
+//    public static String kitchenHostName = "localhost";
+//    public static String generalRepoHostName = "localhost";
 
 }

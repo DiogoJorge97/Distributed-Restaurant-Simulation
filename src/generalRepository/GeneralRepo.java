@@ -6,19 +6,14 @@ import entities_states.Student_State;
 import static entities_states.Student_State.GTR;
 import entities_states.Waiter_State;
 import static entities_states.Waiter_State.ATS;
-import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import semaphore.Semaphore;
 
 /**
- *
- * @author Ricardo Antão
+ * Create generalRepo instantiation
  * @author Diogo Jorge
  */
 public final class GeneralRepo {
@@ -38,6 +33,13 @@ public final class GeneralRepo {
     String generalRepoHostName;
     int generalRepoPortNumber;
 
+    /**
+     * GeneralRepo constructor
+     * @param filename filename
+     * @param generalRepoHostName generalRepo host name
+     * @param generalRepoPortNumber generalRepo port number
+     * @throws IOException 
+     */
     public GeneralRepo(String filename, String generalRepoHostName, int generalRepoPortNumber) throws IOException {
         //inicial states of entities
         waiterstate = ATS;
@@ -55,7 +57,7 @@ public final class GeneralRepo {
      * Initiates fileWriter
      *
      * @param filename
-     * @throws IOException
+     * @throws IOException if logger file can't be initiated 
      */
     public void initFile(String filename) throws IOException {
         fw = new FileWriter(filename);
@@ -67,7 +69,7 @@ public final class GeneralRepo {
     /**
      * Adds line with new states to the logger file
      *
-     * @throws IOException
+     * @throws IOException if line can not be appended to logger file
      */
     public void appendLine() throws IOException {
         access.down();
@@ -82,12 +84,11 @@ public final class GeneralRepo {
     /**
      * Updates chef sate and prints in logger
      *
-     * @param newChefState
-     * @throws IOException
+     * @param newChefState Chef state
+     * @throws IOException if the chef state can't be written to the logger file
      */
     public void updateChefState(Chef_State newChefState) throws IOException {
         chefstate = newChefState;
-        System.out.println(chefstate);
         appendLine();
 
     }
@@ -95,8 +96,8 @@ public final class GeneralRepo {
     /**
      * Updates waiter sate and prints in logger
      *
-     * @param newstate
-     * @throws IOException
+     * @param newstate Waite State
+     * @throws IOException if the waiter state can't be written to the logger file
      */
     public void updateWaiterState(Waiter_State newstate) throws IOException {
         waiterstate = newstate;
@@ -107,9 +108,9 @@ public final class GeneralRepo {
     /**
      * Updates student x sate and prints in logger
      *
-     * @param newstate
-     * @param studentID
-     * @throws IOException
+     * @param newstate Student State
+     * @param studentID student identifier
+     * @throws IOException if the student state can't be written to the logger file
      */
     public void updateStudentState(Student_State newstate, int studentID) throws IOException {
         studentstates[studentID] = newstate;
@@ -119,7 +120,8 @@ public final class GeneralRepo {
     /**
      * Updates course and prints in logger
      *
-     * @throws IOException
+     * @param newcourseCounter Course Counter
+     * @throws IOException if the course state can't be written to the logger file
      */
     public void updateCourse(int newcourseCounter) throws IOException {
         courseCounter = newcourseCounter;
@@ -129,7 +131,7 @@ public final class GeneralRepo {
     /**
      * closes BufferWriter and FileWriter
      *
-     * @throws IOException
+     * @throws IOException if logger file can't be closed
      */
     public void closeWriter() throws IOException {
         bw.close();

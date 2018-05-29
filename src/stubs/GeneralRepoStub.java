@@ -9,21 +9,23 @@ import comInf.Message;
 import entities_states.Chef_State;
 import entities_states.Student_State;
 import entities_states.Waiter_State;
-import genclass.GenericIO;
-import java.io.BufferedWriter;
-import java.io.FileWriter;
 import java.io.IOException;
 import waiter.ClientCom;
 
 /**
- *
- * @author diogojorge
+ * Create generalRepo stub instantiation
+ * @author Diogo Jorge
  */
 public class GeneralRepoStub {
 
     String serverHostName;
     int serverPortNumber;
 
+    /**
+     * GeneralRepo stub constructor
+     * @param serverHostName server host name
+     * @param serverPortNumber server port number
+     */
     public GeneralRepoStub(String serverHostName, int serverPortNumber) {
         this.serverHostName = serverHostName;
         this.serverPortNumber = serverPortNumber;
@@ -32,10 +34,10 @@ public class GeneralRepoStub {
     /**
      * Updates chef sate and prints in logger
      *
-     * @param newstate
-     * @throws IOException
+     * @param ChefNewState Chef new state
+
      */
-    public void updateChefState(Chef_State ChefNewState) throws IOException {
+    public void updateChefState(Chef_State ChefNewState)  {
         ClientCom con = new ClientCom(serverHostName, serverPortNumber);
         Message inMessage, outMessage;
 
@@ -50,8 +52,8 @@ public class GeneralRepoStub {
         con.writeObject(outMessage);
         inMessage = (Message) con.readObject();
         if ((inMessage.getType() != Message.SERVERACKNOWLEDGE)) {
-            GenericIO.writelnString("Thread " + Thread.currentThread().getName() + ": Tipo inválido!");
-            GenericIO.writelnString(inMessage.toString());
+            System.out.println("Thread " + Thread.currentThread().getName() + ": Tipo inválido!");
+            System.out.println(inMessage.toString());
             System.exit(1);
         }
         con.close();
@@ -60,10 +62,9 @@ public class GeneralRepoStub {
     /**
      * Updates waiter sate and prints in logger
      *
-     * @param newstate
-     * @throws IOException
+     * @param waiter_newstate Waiter new state
      */
-    public void updateWaiterState(Waiter_State waiter_newstate) throws IOException {
+    public void updateWaiterState(Waiter_State waiter_newstate){
         ClientCom con = new ClientCom(serverHostName, serverPortNumber);
         Message inMessage, outMessage;
 
@@ -78,8 +79,8 @@ public class GeneralRepoStub {
         con.writeObject(outMessage);
         inMessage = (Message) con.readObject();
         if ((inMessage.getType() != Message.SERVERACKNOWLEDGE)) {
-            GenericIO.writelnString("Thread " + Thread.currentThread().getName() + ": Tipo inválido!");
-            GenericIO.writelnString(inMessage.toString());
+            System.out.println("Thread " + Thread.currentThread().getName() + ": Tipo inválido!");
+            System.out.println(inMessage.toString());
             System.exit(1);
         }
         con.close();
@@ -88,11 +89,10 @@ public class GeneralRepoStub {
     /**
      * Updates student x sate and prints in logger
      *
-     * @param newstate
-     * @param studentID
-     * @throws IOException
+     * @param StudentNewState Student new state
+     * @param studentID student identifier
      */
-    public void updateStudentState(Student_State StudentNewState, int studentID) throws IOException {
+    public void updateStudentState(Student_State StudentNewState, int studentID)  {
         ClientCom con = new ClientCom(serverHostName, serverPortNumber);
         Message inMessage, outMessage;
 
@@ -107,8 +107,8 @@ public class GeneralRepoStub {
         con.writeObject(outMessage);
         inMessage = (Message) con.readObject();
         if ((inMessage.getType() != Message.SERVERACKNOWLEDGE)) {
-            GenericIO.writelnString("Thread " + Thread.currentThread().getName() + ": Tipo inválido!");
-            GenericIO.writelnString(inMessage.toString());
+            System.out.println("Thread " + Thread.currentThread().getName() + ": Tipo inválido!");
+            System.out.println(inMessage.toString());
             System.exit(1);
         }
         con.close();
@@ -117,9 +117,9 @@ public class GeneralRepoStub {
     /**
      * Updates course and prints in logger
      *
-     * @throws IOException
+     * @param newcourseCounter Course state
      */
-    public void updateCourse(int newcourseCounter) throws IOException {
+    public void updateCourse(int newcourseCounter)  {
         ClientCom con = new ClientCom(serverHostName, serverPortNumber);
         Message inMessage, outMessage;
 
@@ -134,13 +134,16 @@ public class GeneralRepoStub {
         con.writeObject(outMessage);
         inMessage = (Message) con.readObject();
         if ((inMessage.getType() != Message.SERVERACKNOWLEDGE)) {
-            GenericIO.writelnString("Thread " + Thread.currentThread().getName() + ": Tipo inválido!");
-            GenericIO.writelnString(inMessage.toString());
+            System.out.println("Thread " + Thread.currentThread().getName() + ": Tipo inválido!");
+            System.out.println(inMessage.toString());
             System.exit(1);
         }
         con.close();
     }
 
+    /**
+     * Informs server to shutdown
+     */
     public void shutdown() {
         ClientCom con = new ClientCom(serverHostName, serverPortNumber);
         Message inMessage, outMessage;
@@ -156,8 +159,8 @@ public class GeneralRepoStub {
         con.writeObject(outMessage);
         inMessage = (Message) con.readObject();
         if (inMessage.getType() != Message.SERVERACKNOWLEDGE) {
-            GenericIO.writelnString("Thread " + Thread.currentThread().getName() + ": Tipo inválido!");
-            GenericIO.writelnString(inMessage.toString());
+            System.out.println("Thread " + Thread.currentThread().getName() + ": Tipo inválido!");
+            System.out.println(inMessage.toString());
             System.exit(1);
         }
         con.close();

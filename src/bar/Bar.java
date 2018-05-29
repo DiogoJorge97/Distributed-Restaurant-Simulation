@@ -19,6 +19,11 @@ public class Bar {
     private final Semaphore waitingForStudentsToFinish;
     private GeneralRepoStub generalRepoStub;
 
+    /**
+     * 
+     * @param StudentSize Student number
+     * @param generalRepoStub GeneralRepo Stub
+     */
     public Bar(int StudentSize, GeneralRepoStub generalRepoStub) {
         this.waiterInTheBar = new Semaphore();
         this.waitingForStudentsToFinish = new Semaphore();
@@ -35,7 +40,7 @@ public class Bar {
      */
     public char lookAround() throws IOException {
         access.down();
-        System.out.println("Bar         Waiter      Looks around: " + situation);
+//        System.out.println("Bar         Waiter      Looks around: " + situation);
         generalRepoStub.updateWaiterState(Waiter_State.ATS);
         access.up();
         if (presentBill == true) {
@@ -51,7 +56,7 @@ public class Bar {
      */
     public void changeSituation(char newsituation) {
         situation = newsituation;
-        System.out.println("Bar         Waiter      Changing situation to: " + newsituation);
+//        System.out.println("Bar         Waiter      Changing situation to: " + newsituation);
     }
 
     /**
@@ -59,7 +64,7 @@ public class Bar {
      */
     public void callTheWaiter() {
         access.down();
-        System.out.println("Bar         Student     Call the waiter");
+//        System.out.println("Bar         Student     Call the waiter");
         changeSituation('o');
         waiterInTheBar.up();
         access.up();
@@ -80,7 +85,7 @@ public class Bar {
      */
     public void returnToTheBar() throws IOException {
         access.down();
-        System.out.println("Bar         Waiter      Return to the bar");
+//        System.out.println("Bar         Waiter      Return to the bar");
         generalRepoStub.updateWaiterState(Waiter_State.ATS);
         access.up();
     }
@@ -92,7 +97,7 @@ public class Bar {
      */
     public void prepareTheBill() throws IOException {
         generalRepoStub.updateWaiterState(Waiter_State.PTB);
-        System.out.println("Bar         Waiter      Prepare the bill");
+//        System.out.println("Bar         Waiter      Prepare the bill");
         presentBill = true;
     }
 
@@ -101,7 +106,7 @@ public class Bar {
      */
     public void SignalTheWaiter() {
         access.down();
-        System.out.println("Bar         Student     Signal the waiter");
+//        System.out.println("Bar         Student     Signal the waiter");
         changeSituation('c');
         waitingForStudentsToFinish.up();
         access.up();
@@ -112,7 +117,7 @@ public class Bar {
      */
     public void PayTheWaiter() {
         access.down();
-        System.out.println("Bar         Student     Pay the waiter");
+//        System.out.println("Bar         Student     Pay the waiter");
         changeSituation('p');
         waiterInTheBar.up();
         access.up();
@@ -130,7 +135,7 @@ public class Bar {
      */
     public void alertWaiterEntering() {
         access.down();
-        System.out.println("Bar         Student     Alert the waiter entering");
+//        System.out.println("Bar         Student     Alert the waiter entering");
         changeSituation('n');
         waiterInTheBar.up();
         access.up();
@@ -162,7 +167,7 @@ public class Bar {
         access.down();
         changeSituation('e');
         waiterInTheBar.up();
-        System.out.println("Bar         Waiter      Go home");
+//        System.out.println("Bar         Waiter      Go home");
         access.up();
     }
 

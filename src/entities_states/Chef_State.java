@@ -1,8 +1,6 @@
 package entities_states;
 
 /**
- *
- * @author Ricardo Antão
  * @author Diogo Jorge
  */
 public enum Chef_State {

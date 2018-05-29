@@ -8,8 +8,7 @@ import stubs.BarStub;
 import stubs.GeneralRepoStub;
 
 /**
- *
- * @author Ricardo Antão
+ * Defines the kitchen that constitutes the service provided
  * @author Diogo Jorge
  */
 public class Kitchen {
@@ -23,7 +22,7 @@ public class Kitchen {
     int coursesNumber = 3;
     int studentNumber = 7;
     BarStub barStub;
-    private GeneralRepoStub generalRepoStub;
+    private final GeneralRepoStub generalRepoStub;
     int PortionCounter;
     private int CourseCounter = 0;
 
@@ -36,7 +35,6 @@ public class Kitchen {
         this.PortionCounter = 0;
         this.chefWaitingForDelivery = new Semaphore();
         this.CourseCounter = 1;
-
         this.access = new Semaphore();
         access.up();
         this.generalRepoStub = generalRepoStub;
@@ -45,10 +43,10 @@ public class Kitchen {
     /**
      * Chef watches the news waiting for orders
      *
-     * @throws IOException
+     * @throws IOException if the chef state can't be written to the logger file
      */
     public void WatchTheNews() throws IOException {
-        System.out.println("Kitchen     Chef        Watch the news");
+//        System.out.println("Kitchen     Chef        Watch the news");
         generalRepoStub.updateChefState(Chef_State.WFO);
         chefWatchingTheNews.down();
     }
@@ -56,11 +54,11 @@ public class Kitchen {
     /**
      * Waiter hands order to the chef
      *
-     * @throws IOException
+     * @throws IOException if the waiter state can't be written to the logger file
      */
     public void handTheNoteToTheChef() throws IOException {
         access.down();
-        System.out.println("Kitchen     Waiter      Hand the note to the chef");
+//        System.out.println("Kitchen     Waiter      Hand the note to the chef");
         generalRepoStub.updateWaiterState(Waiter_State.PTO);
         chefWatchingTheNews.up();
         access.up();
@@ -69,11 +67,11 @@ public class Kitchen {
     /**
      * Chef starts preparing the first course
      *
-     * @throws IOException
+     * @throws IOException if the chef state can't be written to the logger file
      */
     public void StartPreparation() throws IOException {
         access.down();
-        System.out.println("Kitchen     Chef        Start Course Preparation");
+//        System.out.println("Kitchen     Chef        Start Course Preparation");
         generalRepoStub.updateChefState(Chef_State.PTC);
         generalRepoStub.updateCourse(1);
         //increase course counter in repo by 1
@@ -83,11 +81,11 @@ public class Kitchen {
     /**
      * Chef proceeds to dishing the portions
      *
-     * @throws IOException
+     * @throws IOException if the chef state can't be written to the logger file
      */
     public void ProceedToPresentation() throws IOException {
         access.down();
-        System.out.println("Kitchen     Chef        Proceed to presentation");
+//        System.out.println("Kitchen     Chef        Proceed to presentation");
         generalRepoStub.updateChefState(Chef_State.DIP);
         access.up();
 
@@ -96,16 +94,16 @@ public class Kitchen {
     /**
      * Chef alerts the waiter to deliver the dishes
      *
-     * @param deliveredCount ABCD
-     * @throws IOException DE
+     * @param deliveredCount Counter of the dishes delivered by the chef to the waiter 
+     * @throws IOException if the chef state can't be written to the logger file
      */
     public void AlertTheWaiter(int deliveredCount) throws IOException {
         access.down();
-        System.out.println("Kitchen     Chef        Alert the waiter");
+//        System.out.println("Kitchen     Chef        Alert the waiter");
         barStub.CallTheWaitertoServe();
         if (deliveredCount == 0) {
             barStub.waiterInTheBarUp();
-            System.out.println("Kitchen     Chef        Alert the waiter Up");
+//            System.out.println("Kitchen     Chef        Alert the waiter Up");
         }
         generalRepoStub.updateChefState(Chef_State.DLP);
         access.up();
@@ -115,12 +113,12 @@ public class Kitchen {
     /**
      * Waiter collects cooked portion
      *
-     * @throws IOException
+     * @throws IOException if the waiter state can't be written to the logger file
      */
     public void collectPortion() throws IOException {
         waiterWaitingForPortion.down();
         access.down();
-        System.out.println("Kitchen     Waiter      Collect Portion " + PortionCounter);
+//        System.out.println("Kitchen     Waiter      Collect Portion " + PortionCounter);
         generalRepoStub.updateWaiterState(Waiter_State.WFP);
         PortionCounter++;
         access.up();
@@ -136,12 +134,12 @@ public class Kitchen {
     /**
      * Chef checks if all portions have been delivered
      *
-     * @param StudentSize
-     * @return true of false
+     * @param StudentSize Number of students in the restaurant 
+     * @return true if all portions have been delivered 
      */
     public boolean AllPortionsBeenDelivered(int StudentSize) {
         if (PortionCounter == StudentSize) {
-            System.out.println("Kitchen     Chef        All Portions Delivered");
+//            System.out.println("Kitchen     Chef        All Portions Delivered");
             return true;
         }
         return false;
@@ -150,26 +148,26 @@ public class Kitchen {
     /**
      * Chef starts preparing next portion
      *
-     * @throws IOException
+     * @throws IOException if the chef state can't be written to the logger file
      */
     public void HaveNextPortionReady() throws IOException {
         chefWaitingForDelivery.down();
         access.down();
         generalRepoStub.updateChefState(Chef_State.DIP);
-        System.out.println("Kitchen     Chef        Have Next Portion Ready");
+//        System.out.println("Kitchen     Chef        Have Next Portion Ready");
         access.up();
     }
 
     /**
      * Chef prepares next course and increments courseCounter
      *
-     * @param MaxRound
-     * @throws IOException
+     * @param MaxRound Number of courses
+     * @throws IOException if the chef state can't be written to the logger file
      */
     public void ContinuePreparation(int MaxRound) throws IOException {
         barStub.waitingForStudentsToFinishDown();
         access.down();
-        System.out.println("Kitchen     Chef        Continue Preparation");
+//        System.out.println("Kitchen     Chef        Continue Preparation");
         generalRepoStub.updateChefState(Chef_State.PTC);
         PortionCounter = 0;
         CourseCounter++;
@@ -183,11 +181,11 @@ public class Kitchen {
     /**
      * Chef cleans up and gets ready to leave
      *
-     * @throws IOException
+     * @throws IOException if the chef state can't be written to the logger file
      */
     public void cleanup() throws IOException {
         access.down();
-        System.out.println("Kitchen     Chef        Cleanup");
+//        System.out.println("Kitchen     Chef        Cleanup");
         generalRepoStub.updateChefState(Chef_State.CTS);
         access.up();
 
@@ -196,7 +194,7 @@ public class Kitchen {
     /**
      * Chef checks if order is completed
      *
-     * @return true or false
+     * @return true if the order has been completed 
      */
     public boolean HaveTheOrderBeenCompleted() {
         return HasTheOrderBeenCompleted;

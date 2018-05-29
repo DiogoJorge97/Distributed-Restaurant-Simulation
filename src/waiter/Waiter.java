@@ -4,10 +4,9 @@ import stubs.KitchenStub;
 import stubs.BarStub;
 import stubs.TableStub;
 
-
 /**
+ * Defines the student that constitutes the service provided
  *
- * @author Ricardo Antão
  * @author Diogo Jorge
  */
 public class Waiter extends Thread {
@@ -16,12 +15,22 @@ public class Waiter extends Thread {
     private final BarStub barStub;
     private final TableStub tableStub;
 
+    /**
+     * Waiter's constructor
+     *
+     * @param kitchenStub kitchen stub
+     * @param barStub bar stub
+     * @param tableStub table stub
+     */
     public Waiter(KitchenStub kitchenStub, BarStub barStub, TableStub tableStub) {
         this.kitchenStub = kitchenStub;
         this.barStub = barStub;
         this.tableStub = tableStub;
     }
 
+    /**
+     * Waiter's run life
+     */
     @Override
     public void run() {
         char alt;

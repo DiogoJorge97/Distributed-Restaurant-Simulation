@@ -1,17 +1,19 @@
 package chef;
 
 import stubs.KitchenStub;
-import genclass.GenericIO;
 
 /**
- * Este tipo de dados simula uma solução do lado do cliente do Problema dos
- * Barbeiros Sonolentos que implementa o modelo cliente-servidor de tipo 2
- * (replicação do servidor) com lançamento estático dos threads barbeiro. A
- * comunicação baseia-se em passagem de mensagens sobre sockets usando o
- * protocolo TCP.
+ * Class responsible for instantiating all the objects used by the Chef
+ *
+ * @author Diogo Jorge
  */
 public class ChefMain {
 
+    /**
+     * Chef's main program .
+     * @param args
+     * @throws java.lang.InterruptedException if thread is interrupted
+     */
     public static void main(String[] args) throws InterruptedException {
         int coursesNumber = 3;
         int studentNumber = 7;

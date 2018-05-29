@@ -6,16 +6,15 @@ import entities_states.Waiter_State;
 import java.io.*;
 
 /**
- * Este tipo de dados define as mensagens que são trocadas entre os clientes e o
- * servidor numa solução do Problema dos Barbeiros Sonolentos que implementa o
- * modelo cliente-servidor de tipo 2 (replicação do servidor) com lançamento
- * estático dos threads barbeiro. A comunicação propriamente dita baseia-se na
- * troca de objectos de tipo Message num canal TCP.
+ * Defines the message class that constitutes all the messages sent/received
+ * form the client to the server
+ *
+ * @author Diogo Jorge
  */
 public class Message implements Serializable {
 
     /**
-     * Chave de serialização
+     * Serial key
      */
     private static final long serialVersionUID = 1001L;
 
@@ -77,99 +76,150 @@ public class Message implements Serializable {
     public static final int UPDATECOURSE = 54;
     public static final int UPDATESTUDENTSTATE = 55;
 
-    /* Campos das mensagens */
-    /**
-     * Tipo da mensagem
-     */
     private int msgType = -1;
-
     private boolean bool;
-
-    private int studentCount = -1;
-
+    private int Count = -1;
     private char situation;
 
     private Waiter_State waiter_state;
     private Chef_State chef_State;
     private Student_State student_State;
 
+    /**
+     * Message instantiation (type1)
+     *
+     * @param type Message type
+     */
     public Message(int type) {
         msgType = type;
     }
 
+    /**
+     * Message instantiation (type2)
+     *
+     * @param type Message type
+     * @param bool Boolean value
+     */
     public Message(int type, Boolean bool) {
         msgType = type;
         this.bool = bool;
     }
 
+    /**
+     * Message instantiation (type3)
+     *
+     * @param type Message type
+     * @param situation Char value
+     */
     public Message(int type, char situation) {
         msgType = type;
         this.situation = situation;
     }
 
-    public Message(int type, int studentCount) {
+    /**
+     * Message instantiation (type4)
+     *
+     * @param type Message type
+     * @param Count Integer value
+     */
+    public Message(int type, int Count) {
         msgType = type;
-        this.studentCount = studentCount;
+        this.Count = Count;
     }
 
+    /**
+     * Message instantiation (type5)
+     *
+     * @param type Message type
+     * @param waiter_newstate Waiter State
+     */
     public Message(int type, Waiter_State waiter_newstate) {
         msgType = type;
         waiter_state = waiter_newstate;
     }
 
+    /**
+     * Message instantiation (type6)
+     *
+     * @param type Message type
+     * @param chef_newstate Chef State
+     */
     public Message(int type, Chef_State chef_newstate) {
         msgType = type;
         chef_State = chef_newstate;
     }
 
+    /**
+     * Message instantiation (type7)
+     *
+     * @param type Message type
+     * @param StudentNewState Student State
+     * @param studentID Student identifier
+     */
     public Message(int type, Student_State StudentNewState, int studentID) {
         msgType = type;
         student_State = StudentNewState;
-        studentCount = studentID;
+        Count = studentID;
     }
 
-    public Student_State getStudent_State() {
-        return student_State;
-    }
-
+    /**
+     * Message type getter
+     * @return Message type
+     */
     public int getType() {
         return (msgType);
     }
 
+    /**
+     * Boolean getter
+     * @return Boolean
+     */
     public boolean getBool() {
         return (bool);
     }
 
+    /**
+     * Count getter
+     *
+     * @return Count
+     */
     public int getStudentCount() {
-        return (studentCount);
+        return (Count);
     }
 
+    /**
+     * Waiter situation getter
+     *
+     * @return Waiter situation
+     */
     public char getSituation() {
         return (situation);
     }
 
+    /**
+     * Waiter state getter
+     *
+     * @return Waiter state
+     */
     public Waiter_State getWaiter() {
         return (waiter_state);
     }
 
+    /**
+     * Chef state getter
+     *
+     * @return Chef state
+     */
     public Chef_State getChef() {
         return (chef_State);
     }
 
+    /**
+     * Student state getter
+     *
+     * @return Student state
+     */
     public Student_State getStudent() {
         return (student_State);
-    }
-
-    /**
-     * Impressão dos campos internos. Usada para fins de debugging.
-     *
-     * @return string contendo, em linhas separadas, a concatenação da
-     * identificação de cada campo e valor respectivo
-     */
-    @Override
-    public String toString() {
-        return ("Tipo = " + msgType
-                + "\nId StudentCount = " + studentCount
-                + "\nId Situação = " + situation);
     }
 }
