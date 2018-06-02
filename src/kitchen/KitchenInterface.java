@@ -40,10 +40,41 @@ public class KitchenInterface {
         Message outMessage = null;                           // mensagem de resposta
 
         /* validação da mensagem recebida */
-//        switch (inMessage.getType()) {
-//            default:
-//                throw new MessageException("Tipo inválido!", inMessage);
-//        }
+        switch (inMessage.getType()) {
+            case Message.WATCHTHENEWS:
+                break;
+            case Message.STARTPREPARATION:
+                break;
+            case Message.PROCEEDTOPRESENTATION:
+                break;
+            case Message.ALERTTHEWAITER:
+                if (inMessage.getStudentCount() == -1) {
+                    throw new MessageException("Numero invalido!", inMessage);
+                }
+                break;
+            case Message.ALLPORTIONSBEENDELIVERED:
+                break;
+            case Message.HAVENEXTPORTIONREADY:
+                break;
+            case Message.HAVETHEORDERBEENCOMPLETED:
+                break;
+            case Message.CONTINUEPREPARATION:
+                break;
+            case Message.CLEANUP:
+                break;
+            case Message.HANDNOTETOTHECHEF:
+                break;
+            case Message.COLLECTPORTION:
+                break;
+            case Message.CHEFWAITINGFORDELIVERYUP:
+                break;
+            case Message.SHUTKITCHEN:
+                break;
+
+            default:
+                throw new MessageException("Tipo inválido!", inMessage);
+        }
+
 
         /* seu processamento */
         switch (inMessage.getType()) {

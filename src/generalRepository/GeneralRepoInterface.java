@@ -1,5 +1,8 @@
 package generalRepository;
 
+import entities_states.Chef_State;
+import entities_states.Student_State;
+import entities_states.Waiter_State;
 import comInf.Message;
 import comInf.MessageException;
 import java.io.IOException;
@@ -41,33 +44,35 @@ public class GeneralRepoInterface {
     public Message processAndReply(Message inMessage) throws MessageException, IOException {
         Message outMessage = null;                           // mensagem de resposta
 
-        /* validação da mensagem recebida */
-//        switch (inMessage.getType()) {
-//            case Message.WATCHTHENEWS:
-//                break;
-//            case Message.STARTPREPARATION:
-//                break;
-//            case Message.PROCEEDTOPRESENTATION:
-//                break;
-//            case Message.ALERTTHEWAITER:
-//                break;
-//            case Message.ALLPORTIONSBEENDELIVERED:
-//                break;
-//            case Message.HAVENEXTPORTIONREADY:
-//                break;
-//            case Message.HAVETHEORDERBEENCOMPLETED:
-//                break;
-//            case Message.CONTINUEPREPARATION:
-//                break;
-//            case Message.CLEANUP:
-//                break;
-//            case Message.HANDNOTETOTHECHEF:
-//                break;
-//            case Message.COLLECTPORTION:
-//                break;
-//            default:
-//                throw new MessageException("Tipo inválido!", inMessage);
-//        }
+
+  /* validação da mensagem recebida */
+        switch (inMessage.getType()) {
+            case Message.UPDATEWAITERSTATE:
+                if (!(inMessage.getWaiter() instanceof Waiter_State)) {
+                    throw new MessageException("Estado invalido!", inMessage);
+                }
+                break;
+            case Message.UPDATECHEFSTATE:
+                if (!(inMessage.getChef() instanceof Chef_State)) {
+                    throw new MessageException("Estado invalido!", inMessage);
+                }
+                break;
+            case Message.UPDATESTUDENTSTATE:
+                if (!(inMessage.getStudent() instanceof Student_State) || inMessage.getStudentCount() == -1) {
+                    throw new MessageException("Estado ou Numero invalido!", inMessage);
+                }
+                break;
+            case Message.UPDATECOURSE:
+                if (inMessage.getStudentCount() == -1) {
+                    throw new MessageException("Numero invalido!", inMessage);
+                }
+                break;
+            case Message.SHUTGENERALREPO:
+                break;
+            default:
+                throw new MessageException("Tipo inválido!", inMessage);
+        }
+
 
         /* seu processamento */
         switch (inMessage.getType()) {

@@ -14,11 +14,13 @@ import semaphore.Semaphore;
 
 /**
  * Create generalRepo instantiation
+ *
  * @author Diogo Jorge
  */
 public final class GeneralRepo {
 
     private int courseCounter;
+    private int courseCounterMinusOne;
     private String filename;
     private PrintWriter writer;
     private Chef_State chefstate;
@@ -27,6 +29,7 @@ public final class GeneralRepo {
     private String line;
     private String lineMinusOne;
     private final Semaphore access;
+    private final Semaphore flag;
 
     BufferedWriter bw = null;
     FileWriter fw = null;
@@ -35,10 +38,11 @@ public final class GeneralRepo {
 
     /**
      * GeneralRepo constructor
+     *
      * @param filename filename
      * @param generalRepoHostName generalRepo host name
      * @param generalRepoPortNumber generalRepo port number
-     * @throws IOException 
+     * @throws IOException
      */
     public GeneralRepo(String filename, String generalRepoHostName, int generalRepoPortNumber) throws IOException {
         //inicial states of entities
@@ -46,24 +50,25 @@ public final class GeneralRepo {
         chefstate = WFO;
         this.access = new Semaphore();
         this.courseCounter = 0;
+        this.courseCounterMinusOne = 0;
         this.filename = filename;
         access.up();
         this.generalRepoHostName = generalRepoHostName;
         this.generalRepoPortNumber = generalRepoPortNumber;
         initFile(filename);
+        this.flag = new Semaphore();
     }
 
     /**
      * Initiates fileWriter
      *
      * @param filename
-     * @throws IOException if logger file can't be initiated 
+     * @throws IOException if logger file can't be initiated
      */
     public void initFile(String filename) throws IOException {
         fw = new FileWriter(filename);
         bw = new BufferedWriter(fw);
         lineMinusOne = "  Course   CHEF         WAITER       ST1        ST2        ST3        ST4        ST5        ST6        ST7\n";
-        bw.append(lineMinusOne);
     }
 
     /**
@@ -75,7 +80,9 @@ public final class GeneralRepo {
         access.down();
         line = "     " + courseCounter + "      " + chefstate + "          " + waiterstate + "         " + studentstates[0] + "        " + studentstates[1] + "        " + studentstates[2] + "        " + studentstates[3] + "        " + studentstates[4] + "        " + studentstates[5] + "        " + studentstates[6] + "\n";
         if (!line.equals(lineMinusOne)) {
-            bw.append(line);
+            if (courseCounter == courseCounterMinusOne){
+                bw.append(lineMinusOne);
+            }
         }
         lineMinusOne = line;
         access.up();
@@ -97,7 +104,8 @@ public final class GeneralRepo {
      * Updates waiter sate and prints in logger
      *
      * @param newstate Waite State
-     * @throws IOException if the waiter state can't be written to the logger file
+     * @throws IOException if the waiter state can't be written to the logger
+     * file
      */
     public void updateWaiterState(Waiter_State newstate) throws IOException {
         waiterstate = newstate;
@@ -110,7 +118,8 @@ public final class GeneralRepo {
      *
      * @param newstate Student State
      * @param studentID student identifier
-     * @throws IOException if the student state can't be written to the logger file
+     * @throws IOException if the student state can't be written to the logger
+     * file
      */
     public void updateStudentState(Student_State newstate, int studentID) throws IOException {
         studentstates[studentID] = newstate;
@@ -121,11 +130,17 @@ public final class GeneralRepo {
      * Updates course and prints in logger
      *
      * @param newcourseCounter Course Counter
-     * @throws IOException if the course state can't be written to the logger file
+     * @throws IOException if the course state can't be written to the logger
+     * file
      */
     public void updateCourse(int newcourseCounter) throws IOException {
+        access.down();
+        bw.append("-------------------------------------------------- Course " + newcourseCounter + " ----------------------------------------------\n");
         courseCounter = newcourseCounter;
+        access.up();
         appendLine();
+        courseCounterMinusOne = courseCounter;
+
     }
 
     /**
@@ -134,6 +149,7 @@ public final class GeneralRepo {
      * @throws IOException if logger file can't be closed
      */
     public void closeWriter() throws IOException {
+        bw.append(lineMinusOne);
         bw.close();
         fw.close();
     }

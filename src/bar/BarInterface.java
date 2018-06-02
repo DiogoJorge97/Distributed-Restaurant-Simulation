@@ -1,5 +1,6 @@
 package bar;
 
+import comInf.Info;
 import comInf.Message;
 import comInf.MessageException;
 import java.io.IOException;
@@ -40,11 +41,37 @@ public class BarInterface {
     public Message processAndReply(Message inMessage) throws MessageException, IOException {
         Message outMessage = null;                           // mensagem de resposta
 
-        /* validação da mensagem recebida */
-//        switch (inMessage.getType()) {
-//            default:
-//                throw new MessageException("Tipo inválido!", inMessage);
-//        }
+  /* validação da mensagem recebida */
+        switch (inMessage.getType()) {
+            case Message.LOOKARROUND:
+                break;
+            case Message.PREPARETHEBILL:
+                break;
+            case Message.RETURNTOBAR:
+                break;
+            case Message.WAITERINTHEBARUP:
+                break;
+            case Message.WAITINGFORSTUDENTSTOFINISHDOWN:
+                break;
+            case Message.CALLTHEWAITERTOSERVE:
+                break;
+            case Message.CALLTHEWAITER:
+                break;
+            case Message.ALERTWAITEREXIT:
+                break;
+            case Message.WAITERGOHOME:
+                break;
+            case Message.PAYTHEWAITER:
+                break;
+            case Message.ALERTWAITERENTERING:
+                break;
+            case Message.SIGNALTHEWAITER:
+                break;
+            case Message.SHUTBAR:                                                        // shutdown do servidor
+                break;
+            default:
+                throw new MessageException("Tipo inválido!", inMessage);
+        }
 
         /* seu processamento */
         switch (inMessage.getType()) {

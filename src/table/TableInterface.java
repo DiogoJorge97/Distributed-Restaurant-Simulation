@@ -1,5 +1,6 @@
 package table;
 
+import comInf.Info;
 import comInf.Message;
 import comInf.MessageException;
 import java.io.IOException;
@@ -7,15 +8,16 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * Class responsible for decoding the messages received from the client side of the problem and instantiate the proper methods on the Table (server side)
- * 
+ * Class responsible for decoding the messages received from the client side of
+ * the problem and instantiate the proper methods on the Table (server side)
+ *
  */
 public class TableInterface {
 
     /**
      * Table (represents the service)
      *
-     * @serialField kitchen 
+     * @serialField kitchen
      */
     private Table table;
 
@@ -29,8 +31,8 @@ public class TableInterface {
     }
 
     /**
-     * Message processing based on the execution of corresponding tasks.
-     * Answer message creation
+     * Message processing based on the execution of corresponding tasks. Answer
+     * message creation
      *
      * @param inMessage message containing the client request
      *
@@ -42,10 +44,80 @@ public class TableInterface {
         Message outMessage = null;                           // mensagem de resposta
 
         /* validação da mensagem recebida */
-//        switch (inMessage.getType()) {
-//            default:
-//                throw new MessageException("Tipo inválido!", inMessage);
-//        }
+        switch (inMessage.getType()) {
+            case Message.SALUTETHECLIENT:
+                break;
+            case Message.GETTHEPAD:
+                break;
+            case Message.DELIVEREPORTION:
+                break;
+            case Message.HAVEALLCLIENTSBEENSERVED:
+                break;
+            case Message.RESETDELIVEREDCOUNTER:
+                break;
+            case Message.PRESENTTHEBILL:
+                break;
+            case Message.SAYGOODBYE:
+                break;
+            case Message.ENTER:
+                if (inMessage.getStudentCount() < 0 || inMessage.getStudentCount() > Info.studentNumber) {
+                    throw new MessageException("Id do cliente inválido!", inMessage);
+                }
+                break;
+            case Message.READTHEMENU:
+                if (inMessage.getStudentCount() < 0 || inMessage.getStudentCount() > Info.studentNumber) {
+                    throw new MessageException("Id do cliente inválido!", inMessage);
+                }
+            case Message.HASEVERYBODYCHOSEN:
+                break;
+            case Message.PREPARETHEORDER:
+                if (inMessage.getStudentCount() < 0 || inMessage.getStudentCount() > Info.studentNumber) {
+                    throw new MessageException("Id do cliente inválido!", inMessage);
+                }
+            case Message.DESCRIBETHEORDER:
+                break;
+            case Message.JOINTHETALK:
+                if (inMessage.getStudentCount() < 0 || inMessage.getStudentCount() > Info.studentNumber) {
+                    throw new MessageException("Id do cliente inválido!", inMessage);
+                }
+                break;
+            case Message.INFORMCOMPANION:
+                if (inMessage.getStudentCount() < 0 || inMessage.getStudentCount() > Info.studentNumber) {
+                    throw new MessageException("Id do cliente inválido!", inMessage);
+                }
+                break;
+            case Message.STARTEATING:
+                if (inMessage.getStudentCount() < 0 || inMessage.getStudentCount() > Info.studentNumber) {
+                    throw new MessageException("Id do cliente inválido!", inMessage);
+                }
+                break;
+            case Message.ENDEATING:
+                if (inMessage.getStudentCount() < 0 || inMessage.getStudentCount() > Info.studentNumber) {
+                    throw new MessageException("Id do cliente inválido!", inMessage);
+                }
+                break;
+            case Message.HASEVERYBODYFINISHED:
+                if (inMessage.getStudentCount() < 0 || inMessage.getStudentCount() > Info.studentNumber) {
+                    throw new MessageException("Id do cliente inválido!", inMessage);
+                }
+                break;
+            case Message.SHOULDHAVEARRIVEDEARLIER:
+                if (inMessage.getStudentCount() < 0 || inMessage.getStudentCount() > Info.studentNumber) {
+                    throw new MessageException("Id do cliente inválido!", inMessage);
+                }
+                break;
+            case Message.HONORTHEBILL:
+                break;
+            case Message.EXIT:
+                if (inMessage.getStudentCount() < 0 || inMessage.getStudentCount() > Info.studentNumber) {
+                    throw new MessageException("Id do cliente inválido!", inMessage);
+                }
+                break;
+            case Message.SHUTTABLE:                                                        // shutdown do servidor
+                break;
+            default:
+                throw new MessageException("Tipo inválido!", inMessage);
+        }
 
         /* seu processamento */
         switch (inMessage.getType()) {
